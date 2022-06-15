@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %} {% endblock %}
+
+{% block head %}{% endblock %}
+
+{% block body %} 
+<section> 
+  
+<h1> Wego </h1> 
+
+ <h2> Let Us Do The Planing For You </h2>
+</section>
+<section>
+    <h2>Sign Up</h2>
+    <form action="/create_user" method="POST">
+    <p>
+        Email <input type="text" name="email" required>
+    </p>
+
+    <p>
+        Password <input type="password" name="password" required>
+    </p>
+
+    <p>
+        Confirm Password <input type="password" name="confirm_password" required>
+    </p>
+
+    <p>
+        <button type="Submit">Sign Up</button>
+    </p>
+    </form>
+</section>
+
+ 
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %} User's Dashboard{% endblock %}
+
+{% block body %}
+<h1> Hello, {{ user.email }}</h1>
+
+
+
+
+    <center>
+       
+        <form action="/user/search" >
+            <p>
+                <label > Travel </label>
+                <input id="plan type" type="radio" name="travel" >
+                <span class="slider round"></span>
+                </label>
+            </p>
+            <br>
+            <p>
+                <label  > Weekend </label>
+                <input id="plan_type" type="radio" name="weekend" >
+                <span class="slider round"></span>
+                </label>
+            </p>
+            <br>
+            <p> 
+
+                <label > Date Night </label> 
+                <input id="plan_type" type="radio" name="date" >
+                <span class="slider round"></span>
+                </label>
+            </p> 
+
+        <br>
+        <div class="dropdown">
+            <label id="num_people"> How Many People</label> 
+            <select name="num_people" required> 
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </div>
+        <br>
+        <div class="dropdown">
+            <label id="location"> Location</label> 
+            <select name="location" required> 
+                <option value="San Diego, CA">San Diego, CA</option>
+                <option value="Los Angeles, CA">Los Angeles, CA"</option>
+                <option value="San Francisco, CA">San Francisco, CA</option>
+                <option value="New York, NY">New York, NY</option>
+                <option value="Portland, OR">Portland, OR</option>
+                <option value="Denver, CO">Denver, CO</option>
+                <option value="Miami, FL">Miami, FL</option>
+            </select>
+        </div>
+        <br>
+        <div>
+            <label>Date
+            <input type="date" id="date" name="date" required pattern="\d{4}-\d{2}-\d{2}">
+            <span class="validity"></span>
+            </label>
+        </div> 
+        <br>
+        <div class="dropdown">
+            <label id="budget"> Budget</label> 
+            <select name="budget" required> 
+                <option value="free">Free</option>
+                <option value="50">Up to $50</option>
+                <option value="100">Up to $100</option>
+                <option value="500">Up to $500</option>
+                <option value="1000">Up to $1000</option>
+                <option value="5000">Up to $5000</option>
+            </select>
+        </div> 
+        <br>
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+    <br>
+</center>      
+    <center>
+        <h2> My Itineraries </h2>
+        {%for plan in user.plans%}
+        <li> {{plan.plan_type}} : {{plan.location}}</li>
+        {%endfor%}
+    </center>
+</body>
+
+{% endblock %}

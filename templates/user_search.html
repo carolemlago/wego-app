@@ -1,0 +1,19 @@
+
+{% extends 'base.html' %}
+
+{% block title %} User's Dashboard{% endblock %}
+
+{% block body %}
+<h1> Hello, User </h1>
+<h2> Itinerary Plan </h2>
+<div id="search-results"> How Many People: {{ results['events'][0]['attending_count'] }} </div>
+<div id="search-results"> Category: {{ results['events'][0]['category'] }} </div>
+<div id="search-results"> Budget: {{ results['events'][0]['cost_max'] }} </div>
+<div id="search-results"> Link: {{ results['events'][0]['event_site_url'] }} </div>
+<div id="search-results"> Image: {{ results['events'][0]['image_url'] }} </div>
+<div id="search-results"> Time: {{ results['events'][0]['time_start'] }} </div>
+<div id="search-results"> Address: {{ results['events'][0]['location']['address1'] }} </div>
+
+
+
+{% endblock %}
