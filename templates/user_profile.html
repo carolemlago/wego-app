@@ -3,6 +3,7 @@
 {% block title %} User's Dashboard{% endblock %}
 
 {% block body %}
+
 <h1> Hello, {{ user.email }}</h1>
 
 
@@ -11,29 +12,25 @@
     <center>
        
         <form action="/user/search" >
-            <p>
+            <div>
                 <label > Travel </label>
-                <input id="plan type" type="radio" name="travel" >
-                <span class="slider round"></span>
+                <input id="travel" type="radio" value="travel" name="plan_type" >
+                <!-- <span class="slider round"></span> -->
                 </label>
-            </p>
             <br>
-            <p>
+
                 <label  > Weekend </label>
-                <input id="plan_type" type="radio" name="weekend" >
-                <span class="slider round"></span>
+                <input id="weekend" type="radio" value="weekend" name="plan_type" >
+                <!-- <span class="slider round"></span> -->
                 </label>
-            </p>
             <br>
-            <p> 
 
                 <label > Date Night </label> 
-                <input id="plan_type" type="radio" name="date" >
-                <span class="slider round"></span>
+                <input id="date" type="radio" value="date" name="plan_type" >
+                <!-- <span class="slider round"></span> -->
                 </label>
-            </p> 
-
-        <br>
+            <br>
+            </div> 
         <div class="dropdown">
             <label id="num_people"> How Many People</label> 
             <select name="num_people" required> 
@@ -42,11 +39,6 @@
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
             </select>
         </div>
         <br>
@@ -66,6 +58,12 @@
         <div>
             <label>Date
             <input type="date" id="date" name="date" required pattern="\d{4}-\d{2}-\d{2}">
+            <span class="validity"></span>
+            </label>
+        </div> 
+        <div>
+            <label>Duration
+            <input type="date" id="duration" name="duration" required pattern="\d{4}-\d{2}-\d{2}">
             <span class="validity"></span>
             </label>
         </div> 

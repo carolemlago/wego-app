@@ -5,15 +5,42 @@
 
 {% block body %}
 <h1> Hello, User </h1>
-<h2> Itinerary Plan </h2>
-<div id="search-results"> How Many People: {{ results['events'][0]['attending_count'] }} </div>
-<div id="search-results"> Category: {{ results['events'][0]['category'] }} </div>
-<div id="search-results"> Budget: {{ results['events'][0]['cost_max'] }} </div>
-<div id="search-results"> Link: {{ results['events'][0]['event_site_url'] }} </div>
-<div id="search-results"> Image: {{ results['events'][0]['image_url'] }} </div>
-<div id="search-results"> Time: {{ results['events'][0]['time_start'] }} </div>
-<div id="search-results"> Address: {{ results['events'][0]['location']['address1'] }} </div>
+<h2> Your Itinerary {{ plan_type.capitalize() }} Plan is: </h2>
+
+    {% if plan_type == "travel" %} 
+        <ul>
+            {% for result in results %}
+            <li> 
+                <div>{{ result['hotel_name'] }} </div>
+                <div>{{ result['city_name_en'] }} </div>
+                <img src="{{ result['main_photo_url'] }}" />
 
 
+            </li>
+
+            {% endfor %}
+        </ul>
+    {% endif %}    
+        <br>
+
+    {% if plan_type == "weekend" or plan_type == "date" %}
+
+        <ul>
+            {% for result in results%}
+            <li>
+            <img src="{{ result['image_url'] }}" />
+            <div > How Many People: {{ result['attending_count'] }} </div>
+            <div > Category: {{ result['category'] }} </div>
+            <div > Budget: {{ result['cost_max'] }} </div>
+            <div> Time: {{ result['time_start'] }} </div>
+            <div > Address: {{ result['location']['address1'] }} </div>
+            <a href="url"> {{ result['event_site_url'] }} </a>
+            </li>  
+            {% endfor %} 
+               
+        </ul>
+    {% endif %}    
+    
+<br>
 
 {% endblock %}
