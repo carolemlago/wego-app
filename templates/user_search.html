@@ -4,43 +4,57 @@
 {% block title %} User's Dashboard{% endblock %}
 
 {% block body %}
-<h1> Hello, User </h1>
-<h2> Your Itinerary {{ plan_type.capitalize() }} Plan is: </h2>
-
-    {% if plan_type == "travel" %} 
-        <ul>
-            {% for result in results %}
-            <li> 
-                <div>{{ result['hotel_name'] }} </div>
-                <div>{{ result['city_name_en'] }} </div>
-                <img src="{{ result['main_photo_url'] }}" />
-
-
-            </li>
-
-            {% endfor %}
-        </ul>
-    {% endif %}    
-        <br>
-
-    {% if plan_type == "weekend" or plan_type == "date" %}
-
-        <ul>
+<div id="carouselCaptions" class="carousel slide" data-bs-ride="false">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+        
+    <div class="carousel-inner">
             {% for result in results%}
-            <li>
-            <img src="{{ result['image_url'] }}" />
-            <div > How Many People: {{ result['attending_count'] }} </div>
-            <div > Category: {{ result['category'] }} </div>
-            <div > Budget: {{ result['cost_max'] }} </div>
-            <div> Time: {{ result['time_start'] }} </div>
-            <div > Address: {{ result['location']['address1'] }} </div>
-            <a href="url"> {{ result['event_site_url'] }} </a>
-            </li>  
-            {% endfor %} 
-               
-        </ul>
-    {% endif %}    
-    
-<br>
+                
+                {% if result == results[0] %} 
+                <div class="carousel-item active"> 
+                {% else %}
+                <div class="carousel-item"> 
+                {% endif%}    
+                    <img src="{{ result['image_url'] }}" name="event_photo" class="d-block w-100" >
+                    <div class="carousel-caption d-none d-md-block">
+                    
+                        
+                    </div>
+                    <div>
+                        <form action="/save_plan" method='POST'>
+                            <h5 name="plan_name">{{ result['name'] }}</h5>
+                            <p name="event_description">{{ result['description']}}</p>
+                            <input name="event_photo" type="hidden" value="{{result['image_url']}}"> 
+                            <input name="plan_name" type="hidden" value="{{ result['name'] }}"> 
+                            <input name="start_time" type="hidden" value="{{ result['time_start'] }}">
+                            <input name="end_time" type="hidden" value="{{ result['time_end'] }}"> 
+                            <input name="location" type="hidden" value="{{ result['location']['display_address'] }}">
+                            <input name="event_link" type="hidden" value="{{ result['event_site_url'] }}">
+                            <center>
+                                <button class="like" type="click" name="yes" value="add"> Yeah </button>   
+                                <button class="nope" type="click" name="no" value="delete"> Nope </button>
+                            </center>
+                        </form>    
+                    </div>
+                </div>
 
-{% endblock %}
+                {% endfor %} 
+    </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+            </button>
+
+      
+        
+</div>
+{% endblock %}        
+

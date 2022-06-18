@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block body %}
+<h1> Hello, User </h1>
+<h2> Your Itinerary Date Plan is: </h2>
+  
+            
+            <center>    
+            <div > You're going to a {{ plan.plan_name|capitalize }} </div>
+            <div > Time: {{ plan.start_time }} </div>
+            <div> Address: {{ plan.location }} </div>
+            <br>
+            <img src="{{ plan.image_url }}" />
+            <br>
+            <a href="url"> Link: {{ plan.url}} </a>
+            <br>
+            </center>
+            
+               
+            <center>
+            <button type="submit" value="yes" name="confirmation_yes">Add to Calendar</button>
+            </center>
+    </form>
+
+{% endblock %}

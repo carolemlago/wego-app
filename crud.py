@@ -17,17 +17,21 @@ def create_user(email, password):
 
     return user
 
-def create_plan(user_id,plan_type, start_time, end_time, location):
+def create_plan(user_id, location, 
+plan_name, start_time,end_time, url, image_url):
 
     """ Create and return new plan """
     
     
     plan = Plan(
         user_id=user_id,
-        plan_type=plan_type,
         location=location,
-        start_time = start_time,
-        end_time = end_time    
+        plan_name=plan_name,
+        start_time=start_time,
+        end_time=end_time,
+        url=url,
+        image_url=image_url
+
     )
 
     return plan

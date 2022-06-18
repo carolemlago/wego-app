@@ -25,5 +25,12 @@ for n in range(10):
     user = crud.create_user(email, password)
     model.db.session.add(user)
 
+for _ in range(10):
+    user_id = user_id
+    plan_type = plan_type
+    location = location
+
+    plan = crud.create_plan(user_id, plan_type, location)
+    model.db.session.add(user)
 
 model.db.session.commit()

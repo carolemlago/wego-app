@@ -6,14 +6,16 @@
 
 {% block body %} 
 <section> 
-  
+<center>  
 <h1> Wego </h1> 
 
  <h2> Let Us Do The Planing For You </h2>
+</center>
 </section>
 
 <section>
-    <h1>Log In</h1>
+  <center>
+    <h2>Log In</h2>
     <form action="/check_userinfo" method="POST">
       <p>
         Email <input type="text" name="email" required>
@@ -26,6 +28,7 @@
       <p>
         <button type="Submit">Log In</button>
       </p>
+    </center> 
     </form>   
   </section>    
 {% endblock %}

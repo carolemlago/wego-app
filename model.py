@@ -27,6 +27,7 @@ class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String, unique=True)
     password = db.Column(db.String)
+    # fname = db.Column(db.String)
 
     plans = db.relationship("Plan", back_populates="user")
 
@@ -41,10 +42,12 @@ class Plan(db.Model):
 
     plan_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
-    plan_type = db.Column(db.Integer)
+    plan_name = db.Column(db.String)
     start_time = db.Column(db.DateTime)
     end_time = db.Column(db.DateTime)
-    location = db.Column(db.String)
+    location = db.Column(db.String, nullable=False)
+    url = db.Column(db.String)
+    image_url = db.Column(db.String)
     
 
     user = db.relationship("User", back_populates="plans")
@@ -52,7 +55,7 @@ class Plan(db.Model):
    
 
     def __repr__(self):
-        return f"<Plan plan_id = {self.plan_id} user_id = {self.user_id} location = {self.location} >"
+        return f"<Plan plan_id = {self.plan_id} plant_type={self.plan_type} user_id = {self.user_id} location = {self.location} >"
 
 
 if __name__ == "__main__":

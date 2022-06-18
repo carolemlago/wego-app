@@ -2,35 +2,22 @@
 
 {% block title %} User's Dashboard{% endblock %}
 
+<link rel="stylesheet" type="text/css" href="/static/styles.css" />
+
+    
 {% block body %}
-
-<h1> Hello, {{ user.email }}</h1>
-
-
-
-
     <center>
-       
+    <h1> Hello, {{ user.email }}</h1>
+
+    <h2> What Will Be Your Next Date Plan?</h2>
+    </center>
+    <center>
+    <div id="map" class="map" style="width:1000px; height:500px; margin-left:60px;"></div>
+    </center>
+    <center>
+        
         <form action="/user/search" >
-            <div>
-                <label > Travel </label>
-                <input id="travel" type="radio" value="travel" name="plan_type" >
-                <!-- <span class="slider round"></span> -->
-                </label>
-            <br>
-
-                <label  > Weekend </label>
-                <input id="weekend" type="radio" value="weekend" name="plan_type" >
-                <!-- <span class="slider round"></span> -->
-                </label>
-            <br>
-
-                <label > Date Night </label> 
-                <input id="date" type="radio" value="date" name="plan_type" >
-                <!-- <span class="slider round"></span> -->
-                </label>
-            <br>
-            </div> 
+           
         <div class="dropdown">
             <label id="num_people"> How Many People</label> 
             <select name="num_people" required> 
@@ -61,17 +48,10 @@
             <span class="validity"></span>
             </label>
         </div> 
-        <div>
-            <label>Duration
-            <input type="date" id="duration" name="duration" required pattern="\d{4}-\d{2}-\d{2}">
-            <span class="validity"></span>
-            </label>
-        </div> 
         <br>
         <div class="dropdown">
             <label id="budget"> Budget</label> 
             <select name="budget" required> 
-                <option value="free">Free</option>
                 <option value="50">Up to $50</option>
                 <option value="100">Up to $100</option>
                 <option value="500">Up to $500</option>
@@ -81,17 +61,18 @@
         </div> 
         <br>
         <div>
-            <button type="submit">Submit</button>
+            <button type="submit">Plan My Date</button>
         </div>
     </form>
     <br>
-</center>      
-    <center>
-        <h2> My Itineraries </h2>
-        {%for plan in user.plans%}
-        <li> {{plan.plan_type}} : {{plan.location}}</li>
-        {%endfor%}
-    </center>
+</center> 
+    <script src="/static/wegoapp.js"></script>
+    <script 
+        async    
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDL5wGUSTxfoQOh7lLz9d-Ys58N81IpDoE&callback=initMap">
+    </script>     
+
 </body>
 
 {% endblock %}
+

@@ -11,3 +11,10 @@ body {
     color: rgb(53, 95, 53);
     font-family: Calibri, italic;
   }
+
+.map,
+#map {
+  width: 80%;
+  height: 60%;
+}
+  

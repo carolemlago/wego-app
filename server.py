@@ -12,12 +12,13 @@ import requests
 
 
 
+
+
 app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
 
-# API_KEY = os.environ['GOOGLE_MAPS_KEY']
-TRAVEL_API_KEY = os.environ['TRAVEL_API_KEY']
+MAPS_API_KEY = os.environ['GOOGLE_MAPS_KEY']
 YELP_API_KEY = os.environ['YELP_API_KEY']
 
 
@@ -111,58 +112,49 @@ def search_itinerary():
     location = request.args.get("location")
     budget = request.args.get("budget")
     date = request.args.get("date")
-    duration = request.args.get("duration")
-    plan_type = request.args.get("plan_type")
     
-    if plan_type == "travel":
-        url_travel = 'https://booking-com.p.rapidapi.com/v1/hotels/locations'
-        querystring = {
-            "locale": "en-us", 
-            "name": location,
-            }
 
-        headers = {
-            "X-RapidAPI-Key": TRAVEL_API_KEY,
-            "X-RapidAPI-Host": "booking-com.p.rapidapi.com"
-            }
-
-        location_response = requests.request("GET", url_travel, headers=headers, params=querystring)
-        location_response_dict = location_response.json()
-        location_response_id = location_response_dict[0]["dest_id"]
-
-        url_travel_with_id = 'https://booking-com.p.rapidapi.com/v1/hotels/search'
-        querystring = {
-            "adults_number": num_people , 
-            "locale": "en-us", 
-            "name": location,
-            "budget": int(budget),
-            "checkout_date": duration,
-            "units":"metric",
-            "dest_id":int(location_response_id),
-            "dest_type":"city",
-            "order_by":"popularity",
-            "filter_by_currency":"USD",
-            "checkin_date": date,
-            "room_number":"1"
-            }
-
-        hotel_response = requests.request("GET", url_travel_with_id, headers=headers, params=querystring)
-        results = hotel_response.json()['result']
-
-    else:
-        url_date = 'https://api.yelp.com/v3/events'
-        querystring = {"attending_count": num_people, 
+    url_date = 'https://api.yelp.com/v3/events'
+    querystring = {
+        "attending_count": num_people, 
         "cost_max": int(budget), 
-        "location": location}
+        "location": location,
+        }
 
-        headers = {"Authorization": f"Bearer {YELP_API_KEY}"}
+    headers = {"Authorization": f"Bearer {YELP_API_KEY}"}
 
-        response = requests.request("GET", url_date, headers=headers, params=querystring)
-        print(response.json())
-        results = response.json()['events']
-        
-    return render_template('user_search.html', results=results, plan_type=plan_type, user_id=session['user_id'])
+    response = requests.request("GET", url_date, headers=headers, params=querystring)
+    results = response.json()['events']
+    print(results)
+    
+    
 
+    return render_template('user_search.html', results=results, user_id=session['user_id'])
+
+@app.route('/save_plan', methods=['POST'])
+def save_plan():
+    """ Save in the database user's itinerary plan """
+
+    event_photo = request.form.get("event_photo")
+    plan_name = request.form.get("plan_name")
+    start_time = request.form.get("start_time")
+    end_time = request.form.get("end_time")
+    location = request.form.get("location")
+    event_link = request.form.get("event_link")
+   
+    
+    save_date_plan = crud.create_plan(
+        user_id=session['user_id'],
+        image_url=event_photo,
+        plan_name=plan_name,
+        start_time=start_time,
+        end_time=end_time,
+        location=location,
+        url=event_link
+        ) 
+    db.session.add(save_date_plan)
+    db.session.commit()   
+    return render_template('save_plan.html', plan=save_date_plan)
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)

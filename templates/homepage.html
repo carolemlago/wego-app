@@ -5,27 +5,28 @@
 {% block head %}{% endblock %}
 
 {% block body %} 
-<section> 
-  
-<h1> Wego </h1> 
-
- <h2> Let Us Do The Planing For You </h2>
-</section>
-<section>
+<center>  
+    
+  <section> 
+    <h1> Wego </h1> 
+    <h2> Let Us Do The Planing For You </h2>
+  </section>
+  <section>
     <h2>Sign Up</h2>
-    <form action="/signup" >
-    <p>
-        <button id="signup-button" type="submit">Sign Up</button>
-    </p>
-    </form>
-</section>
-
-<section>
-    <h2>Log In</h2>
-    <form action="/login" >
+      <form action="/signup" >
       <p>
-        <button id="login-button" type="Submit">Log In</button>
+          <button id="signup-button" type="submit">Sign Up</button>
       </p>
-    </form>   
-  </section>    
+      </form>
+  </section>
+
+  <section>
+      <h2>Log In</h2>
+      <form action="/login" >
+        <p>
+          <button id="login-button" type="Submit">Log In</button>
+        </p>
+      </form> 
+  </section>
+</center>     
 {% endblock %}
