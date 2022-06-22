@@ -101,8 +101,13 @@ def show_user(user_id):
     user = crud.get_user_by_id(user_id)
    
     return render_template("user_profile.html", user=user)
-        
 
+@app.route('/logout')
+def logout():
+    session.pop('user_id',None)
+    return redirect('/')
+
+        
 @app.route('/user/search')
 def search_itinerary():
     """Search for itineraries ideas"""
@@ -154,7 +159,18 @@ def save_plan():
         ) 
     db.session.add(save_date_plan)
     db.session.commit()   
-    return render_template('save_plan.html', plan=save_date_plan)
+    return render_template('save_plan.html', plan=save_date_plan, user_id=session['user_id'])
+
+@app.route('/delete_plan', methods=['POST'])
+def delete_plan():
+    """ Delete plan from view and database """
+
+    plan_id = request.json.get("planId")
+    
+    crud.delete_plan(plan_id=plan_id) 
+    return ("Event deleted succesfully!")
+
+
 
 if __name__ == "__main__":
     # DebugToolbarExtension(app)

@@ -22,7 +22,7 @@ function initMap() {
 
   
     const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ address: userAddress }, (results, status) => {
+    geocoder.geocode({ address: "sanDiego" }, (results, status) => {
       if (status === 'OK') {
         // Get the coordinates of the user's location
         const userLocation = results[0].geometry.location;
@@ -42,34 +42,39 @@ function initMap() {
     });
   }
 
-const yes_button = document.getElementByName('yes');
 
 
-const handleClickYes = (evt) => {
-	evt.preventDefault();
-	alert('Your date is confirmed!');
-};
 
-button.addEventListener('click', handleClickYes);
 
-const no_button = document.getElementByName('no');
+//  Event handler to delete event
 
-const handleClickNo = (evt) => {
-	evt.preventDefault();
-	alert('Event deleted!');
-};
+const deleteButton = document.querySelectorAll('.delete');
 
-button.addEventListener('click', handleClickNo);
+for (let i = 0; i < deleteButton.length; i++) {
+    const handleClickDelete = (evt) => {
+    // Delete event from dashboard
+      
+    const formInputs = {
+      planId: document.getElementById(`plan-id${i}`).value,
+    };
+    
+    fetch('/delete_plan', {
+      method: 'POST',
+      body: JSON.stringify(formInputs),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.text())
+      .then((responseData) => {
+        document.querySelector(`#plan-div${i}`).remove();
+        
+        alert('Your plan is deleted!');
+      });
 
-// fetch('/save_plan', {
-// 	method : 'POST',
-// 	body : JSON.stringify(),
-//   headers: {
-//     'Content Type' : 'application/json'
-//   },
-// })
-//   .then((response) => response.json())
-//   .then((responseData) => {
-//     document.getElementByName('').value = responseData;
-//   });
+    }
+  deleteButton[`${i}`].addEventListener('click', handleClickDelete);
+}
+
+
 

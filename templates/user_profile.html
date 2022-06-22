@@ -7,15 +7,26 @@
     
 {% block body %}
     <center>
-    <h1> Hello, {{ user.email }}</h1>
+        <h1> Hello, {{ user.email }}</h1>
 
-    <h2> What Will Be Your Next Date Plan?</h2>
+            <h2> What Will Be Your Next Date Plan?</h2>
+    </center>
+    <div class="container"> 
+        <div class="header clearfix">
+            <nav>
+                <ul class="nav nav-pills float-right">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout"> Logout </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <center>
+        <div id="map" class="map" style="width:1000px; height:500px; margin-left:60px;"></div>
     </center>
     <center>
-    <div id="map" class="map" style="width:1000px; height:500px; margin-left:60px;"></div>
-    </center>
-    <center>
-        
+        <!-- User's search filters -->
         <form action="/user/search" >
            
         <div class="dropdown">
@@ -66,12 +77,46 @@
     </form>
     <br>
 </center> 
+
+    <!-- User's events -->
+    <div class="container">
+        <h2>Your Dates</h2>
+        {% if user.plans %}
+        <div>
+            {% for plan in user.plans %}
+            <div class="plans" id="plan-div{{loop.index0}}"> {{ plan.plan_name}} </div>
+                <div>
+                    <img src="{{ plan.image_url }}">
+                </div>
+                <div class="card-body">
+                    <div class="card-text">
+                    <h3>{{ plan.plan_name}}</h3>
+                    <input id="plan-id{{loop.index0}}" value="{{plan.plan_id}}" hidden> {{plan.plan_id}} </input>
+                    {{ plan.location }}<br>
+                    {{ plan.start_time.strftime("%m-%d-%Y") }} to {{ plan.end_time.strftime("%m-%d-%Y") }}
+                    <a href="{{ plan.url }}">{{ plan.url }}</a>
+                    </div>
+                </div>
+            <div>
+                <button class="delete" type="click" id="{{plan.plan_id}}" name="delete-plan">Delete Event <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                  </svg></button>
+              </div>
+            
+            {% endfor %}
+        </div>      
+        {% endif %}
+
+
+    <!-- Google Maps JS  -->
+
     <script src="/static/wegoapp.js"></script>
     <script 
         async    
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDL5wGUSTxfoQOh7lLz9d-Ys58N81IpDoE&callback=initMap">
-    </script>     
-
+    </script>  
+     
 </body>
 
 {% endblock %}
