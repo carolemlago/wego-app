@@ -18,7 +18,7 @@ def create_user(email, password):
     return user
 
 def create_plan(user_id, location, 
-plan_name, start_time,end_time, url, image_url):
+plan_name, plan_type, start_time,end_time, url, image_url):
 
     """ Create and return new plan """
     
@@ -27,6 +27,7 @@ plan_name, start_time,end_time, url, image_url):
         user_id=user_id,
         location=location,
         plan_name=plan_name,
+        plan_type=plan_type,
         start_time=start_time,
         end_time=end_time,
         url=url,
@@ -53,9 +54,15 @@ def get_user_by_email(email):
     """Return a user by email"""    
     return User.query.filter(User.email == email).first()
 
+def get_plans_by_user_and_plan_type(user_id, plan_type):
+    """ Return user's plan of a selected type """
+    return Plan.query.filter(User.user_id == user_id, 
+    Plan.plan_type == plan_type).all()
+
 def delete_plan(plan_id):
     """Delete selected plan."""
     deleted_plan = Plan.query.get(plan_id)
+
     db.session.delete(deleted_plan)
     db.session.commit()
        

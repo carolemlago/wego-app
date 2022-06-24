@@ -98,9 +98,15 @@ def get_user_by_email():
 @app.route('/users/<user_id>')
 def show_user(user_id):
     """Show users dashboard."""
+
+
     user = crud.get_user_by_id(user_id)
-   
-    return render_template("user_profile.html", user=user)
+    event_plan = crud.get_plans_by_user_and_plan_type(user_id, plan_type="events")
+    bar_plan = crud.get_plans_by_user_and_plan_type(user_id, plan_type="bars")
+    active_plan = crud.get_plans_by_user_and_plan_type(user_id, plan_type="activities")
+    
+    
+    return render_template("user_profile.html", user=user, event_plan=event_plan, bar_plan=bar_plan, active_plan=active_plan)
 
 @app.route('/logout')
 def logout():
@@ -117,49 +123,132 @@ def search_itinerary():
     location = request.args.get("location")
     budget = request.args.get("budget")
     date = request.args.get("date")
-    
+    types = request.args.getlist("type")
+    event_results = {}
+    bar_results = {}
+    activity_results = {}
 
-    url_date = 'https://api.yelp.com/v3/events'
-    querystring = {
-        "attending_count": num_people, 
-        "cost_max": int(budget), 
-        "location": location,
-        }
 
     headers = {"Authorization": f"Bearer {YELP_API_KEY}"}
 
-    response = requests.request("GET", url_date, headers=headers, params=querystring)
-    results = response.json()['events']
-    print(results)
-    
-    
+    for item in types:
 
-    return render_template('user_search.html', results=results, user_id=session['user_id'])
+        # Check for event in date types
+        if "event" in types:
+            url_events = 'https://api.yelp.com/v3/events'
+            querystring = {
+            "attending_count": num_people, 
+            "cost_max": int(budget), 
+            "location": location,
+            }
+            response_events = requests.request("GET", url_events, headers=headers, params=querystring)
+            event_results = response_events.json()['events']
+            
+        
+        # Check for bar in date types
+        if "bar" in types:
+            url_bars = 'https://api.yelp.com/v3/businesses/search'
+            querystring = {
+            "location": location,
+            "categories": ["nightlife", "bars", "restaurants"]
+            }
+
+            response_bars = requests.request("GET", url_bars, headers=headers, params=querystring)
+            bar_results = response_bars.json()['businesses']
+            print(bar_results)
+
+        # Check for active in date types
+        if "activity" in types:
+            url_business = 'https://api.yelp.com/v3/businesses/search'   
+            querystring = {
+            "location": location, 
+            "categories" : "active"
+            }
+    
+            response_active = requests.request("GET", url_business, headers=headers, params=querystring)
+            activity_results = response_active.json()['businesses']
+    
+    return render_template('user_search.html', events=event_results, bars=bar_results, activities=activity_results, user_id=session['user_id'])
+
+
 
 @app.route('/save_plan', methods=['POST'])
 def save_plan():
     """ Save in the database user's itinerary plan """
 
+    # variables for my event category plan
+    event_type = request.form.get("events")
     event_photo = request.form.get("event_photo")
-    plan_name = request.form.get("plan_name")
+    event_name = request.form.get("event_name")
     start_time = request.form.get("start_time")
     end_time = request.form.get("end_time")
-    location = request.form.get("location")
+    event_location = request.form.get("event_location")
     event_link = request.form.get("event_link")
-   
+
+    # variables for my bar category plan
+    bars_type = request.form.get("bars")
+    bar_photo = request.form.get("bar_photo")
+    bar_name = request.form.get("bar_name")
+    bar_location = request.form.get("bar_location")
+    bar_link = request.form.get("bar_link")
+
+    # variables for my activity category plan
+    activities_type = request.form.get("activities")
+    activity_photo = request.form.get("activity_photo")
+    activity_name = request.form.get("activity_name")
+    activity_location = request.form.get("activity_location")
+    activity_link = request.form.get("activity_link")
+
+    event_plan = {}
+    bar_plan = {}
+    activity_plan = {}
     
-    save_date_plan = crud.create_plan(
+    # If event category was selected, create event date plan
+    if event_type:
+        event_plan = crud.create_plan(
         user_id=session['user_id'],
         image_url=event_photo,
-        plan_name=plan_name,
+        plan_name=event_name,
+        plan_type=event_type,
         start_time=start_time,
         end_time=end_time,
-        location=location,
+        location=event_location,
         url=event_link
         ) 
-    db.session.add(save_date_plan)
+        db.session.add(event_plan)
+
+    # If bar category was selected, create bar date plan
+    if bars_type:
+        bar_plan = crud.create_plan(
+        user_id=session['user_id'],
+        image_url=bar_photo,
+        plan_name=bar_name,
+        plan_type=bars_type,
+        start_time=None,
+        end_time=None,
+        location=bar_location,
+        url=bar_link
+        ) 
+        db.session.add(bar_plan)
+
+    # If activity category was selected, create activity date plan
+    if activities_type:
+        activity_plan = crud.create_plan(
+        user_id=session['user_id'],
+        image_url=activity_photo,
+        plan_name=activity_name,
+        plan_type=activities_type,
+        start_time=None,
+        end_time=None,
+        location=activity_location,
+        url=activity_link
+        ) 
+        db.session.add(activity_plan)
+
+    
+    print(bar_plan)
     db.session.commit()   
-    return render_template('save_plan.html', plan=save_date_plan, user_id=session['user_id'])
+    return render_template('save_plan.html', event_plan=event_plan, bar_plan=bar_plan, activity_plan=activity_plan, user_id=session['user_id'])
 
 @app.route('/delete_plan', methods=['POST'])
 def delete_plan():

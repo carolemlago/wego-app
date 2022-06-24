@@ -19,7 +19,7 @@ model.db.create_all()
 
 
 for n in range(10):
-    email = f'user{n}@test.com'  # Voila! A unique email!
+    email = f'user{n}@test.com'  
     password = 'test'
 
     user = crud.create_user(email, password)
@@ -31,6 +31,6 @@ for _ in range(10):
     location = location
 
     plan = crud.create_plan(user_id, plan_type, location)
-    model.db.session.add(user)
+    model.db.session.add(plan)
 
 model.db.session.commit()

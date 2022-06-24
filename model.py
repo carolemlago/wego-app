@@ -26,8 +26,7 @@ class User(db.Model):
 
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String, unique=True)
-    password = db.Column(db.String)
-    # fname = db.Column(db.String)
+    password = db.Column(db.String)  
 
     plans = db.relationship("Plan", back_populates="user")
 
@@ -43,6 +42,7 @@ class Plan(db.Model):
     plan_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"))
     plan_name = db.Column(db.String)
+    plan_type = db.Column(db.String)
     start_time = db.Column(db.DateTime)
     end_time = db.Column(db.DateTime)
     location = db.Column(db.String, nullable=False)

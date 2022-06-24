@@ -2,33 +2,48 @@
 
 {% block title %} User's Dashboard{% endblock %}
 
-<link rel="stylesheet" type="text/css" href="/static/styles.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/styles.css" />
 
     
 {% block body %}
+    
+     <!-- Nav bar with app logo and logout -->
+        <nav class="navbar navbar-light" style="background-color: #cdddd6;">
+            <div class="container">
+                <div class="justify-content-between d-flex w-100">
+                        <a class="navbar-brand" href="/">
+                            <img id="app-logo" src="/static/img/wego-logo.png" width=80px>
+                            <span id="app-title" style="color: rgb(42, 84, 49)">Wego</span>
+                          </a>
+                        <a class="nav-link" style="color: rgb(42, 84, 49)" href="/logout"> Logout </a>
+                </div>
+            </div>
+        </nav>
+        <center>
+            <h1> Hello, {{ user.email }}</h1>
+    
+                <h2> What Will Be Your Next Date Plan?</h2>
+        </center>
     <center>
-        <h1> Hello, {{ user.email }}</h1>
-
-            <h2> What Will Be Your Next Date Plan?</h2>
-    </center>
-    <div class="container"> 
-        <div class="header clearfix">
-            <nav>
-                <ul class="nav nav-pills float-right">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout"> Logout </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-    <center>
+        <!-- Google Map div -->
         <div id="map" class="map" style="width:1000px; height:500px; margin-left:60px;"></div>
     </center>
     <center>
         <!-- User's search filters -->
         <form action="/user/search" >
-           
+
+        <!-- Category Type -->
+        <div>
+            <input type="checkbox" id="category-event" name="type" value="event"> 
+            <label for="event"> Event </label> <br>
+            <input type="checkbox" id="category-bar" name="type" value="bar"> 
+            <label for="bar"> Bar </label> <br>
+            <input type="checkbox" id="category-activity" name="type" value="activity"> 
+            <label for="activity"> Activity </label> <br>
+         </div>
+         <br>    
+
+           <!-- How many people  -->
         <div class="dropdown">
             <label id="num_people"> How Many People</label> 
             <select name="num_people" required> 
@@ -40,6 +55,7 @@
             </select>
         </div>
         <br>
+        <!-- Location -->
         <div class="dropdown">
             <label id="location"> Location</label> 
             <select name="location" required> 
@@ -53,6 +69,7 @@
             </select>
         </div>
         <br>
+        <!-- Date -->
         <div>
             <label>Date
             <input type="date" id="date" name="date" required pattern="\d{4}-\d{2}-\d{2}">
@@ -60,14 +77,14 @@
             </label>
         </div> 
         <br>
+        <!-- Budget -->
         <div class="dropdown">
             <label id="budget"> Budget</label> 
             <select name="budget" required> 
-                <option value="50">Up to $50</option>
-                <option value="100">Up to $100</option>
-                <option value="500">Up to $500</option>
-                <option value="1000">Up to $1000</option>
-                <option value="5000">Up to $5000</option>
+                <option value="50">$</option>
+                <option value="100">$$</option>
+                <option value="500">$$$</option>
+                <option value="1000">$$$$</option>
             </select>
         </div> 
         <br>
@@ -84,26 +101,78 @@
         {% if user.plans %}
         <div>
             {% for plan in user.plans %}
-            <div class="plans" id="plan-div{{loop.index0}}"> {{ plan.plan_name}} </div>
-                <div>
-                    <img src="{{ plan.image_url }}">
-                </div>
-                <div class="card-body">
-                    <div class="card-text">
-                    <h3>{{ plan.plan_name}}</h3>
-                    <input id="plan-id{{loop.index0}}" value="{{plan.plan_id}}" hidden> {{plan.plan_id}} </input>
-                    {{ plan.location }}<br>
-                    {{ plan.start_time.strftime("%m-%d-%Y") }} to {{ plan.end_time.strftime("%m-%d-%Y") }}
-                    <a href="{{ plan.url }}">{{ plan.url }}</a>
+
+                <!-- Display Event Type Dates -->
+                {% if plan.plan_type == "events" %}
+                <div class="plans" id="plan-div{{loop.index0}}"> {{ plan.plan_name}} </div>
+                    <div>
+                        <img src="{{ plan.image_url }}">
                     </div>
+                    <div class="card-body">
+                        <div class="card-text">
+                        <h3>{{ plan.plan_name}}</h3>
+                        <input id="plan-id{{loop.index0}}" value="{{plan.plan_id}}" hidden> {{plan.plan_id}} </input>
+                        {{ plan.location }}<br>
+                        {{ plan.start_time.strftime("%m-%d-%Y") }} to {{ plan.end_time.strftime("%m-%d-%Y") }}
+                        <br>
+                        <a href="{{ plan.url }}">{{ plan.url }}</a>
+                        </div>
+                    </div>   
+                <div>
+                    <button class="delete" type="click" id="{{plan.plan_id}}" name="delete-plan">Delete Event <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                    </svg></button>
                 </div>
-            <div>
-                <button class="delete" type="click" id="{{plan.plan_id}}" name="delete-plan">Delete Event <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                  </svg></button>
-              </div>
-            
+                {% endif %}
+                
+                 <!-- Display Bar Type Dates -->
+                {% if plan.plan_type == "bars" %}
+                 <div class="plans" id="plan-div{{loop.index0}}"> {{ plan.plan_name}} </div>
+                     <div>
+                         <img src="{{ plan.image_url }}">
+                     </div>
+                     <div class="card-body">
+                         <div class="card-text">
+                         <h3>{{ plan.plan_name}}</h3>
+                         <input id="plan-id{{loop.index0}}" value="{{plan.plan_id}}" hidden> {{plan.plan_id}} </input>
+                         {{ plan.location }}<br>
+                         <br>
+                         <a href="{{ plan.url }}">{{ plan.url }}</a>
+                         </div>
+                     </div>   
+                 <div>
+                     <button class="delete" type="click" id="{{plan.plan_id}}" name="delete-plan">Delete Event <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                         <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                     </svg></button>
+                 </div>
+                {% endif %}
+                 
+                  
+                 <!-- Display Active Type Dates -->
+                {% if plan.plan_type == "activities" %}
+                    <div class="plans" id="plan-div{{loop.index0}}"> {{ plan.plan_name}} </div>
+                     <div>
+                         <img src="{{ plan.image_url }}">
+                     </div>
+                     <div class="card-body">
+                         <div class="card-text">
+                         <h3>{{ plan.plan_name}}</h3>
+                         <input id="plan-id{{loop.index0}}" value="{{plan.plan_id}}" hidden> {{plan.plan_id}} </input>
+                         {{ plan.location }}<br>
+                         <br>
+                         <a href="{{ plan.url }}">{{ plan.url }}</a>
+                         </div>
+                     </div>   
+                    <div>
+                     <button class="delete" type="click" id="{{plan.plan_id}}" name="delete-plan">Delete Event <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                         <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                     </svg></button>
+                     </div>
+                {% endif %} 
+                
             {% endfor %}
         </div>      
         {% endif %}
@@ -111,7 +180,7 @@
 
     <!-- Google Maps JS  -->
 
-    <script src="/static/wegoapp.js"></script>
+    <script src="/static/js/wegoapp.js"></script>
     <script 
         async    
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDL5wGUSTxfoQOh7lLz9d-Ys58N81IpDoE&callback=initMap">
