@@ -9,6 +9,8 @@ from jinja2 import StrictUndefined
 from pprint import pformat
 import os
 import requests
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 
 
@@ -20,6 +22,7 @@ app.jinja_env.undefined = StrictUndefined
 
 MAPS_API_KEY = os.environ['GOOGLE_MAPS_KEY']
 YELP_API_KEY = os.environ['YELP_API_KEY']
+TWILIO_API_KEY = os.environ['TWILIO_API_KEY']
 
 
 @app.route('/')
@@ -257,7 +260,32 @@ def delete_plan():
     plan_id = request.json.get("planId")
     
     crud.delete_plan(plan_id=plan_id) 
-    return ("Event deleted succesfully!")
+    return ("Success!")
+
+@app.route('/send_email', methods=['POST'])
+def send_email():
+    to_email = request.json.get('to_email')
+    date_plan = request.json.get('date')
+
+    message = Mail(from_email='carolemlago@gmail.com',
+                    to_emails=to_email,
+                    subject='Your Date Itinerary by Wego',
+                    plain_text_content=f'You are going to {date_plan} event',
+                    html_content=f'<strong>You are going to {date_plan} event </strong>'
+                    )
+                    
+    try: 
+        sg = SendGridAPIClient(os.environ['TWILIO_API_KEY'])
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+
+    except Exception as e:
+        print(e.message)
+
+
+
 
 
 
