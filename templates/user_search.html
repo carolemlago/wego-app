@@ -66,10 +66,12 @@
                             <h5 name="bar_name">{{ bar['name'] }}</h5>
                             {% for category in bar ['categories'] %}
                             <h5 name="bar_category">{{ category.title }}</h5>
+                            <h5 name="bar_date" >{{date}} </h5>
                             {% endfor %}
                             <input name="bar_photo" type="hidden" value="{{ bar['image_url']}}"> 
                             <input name="bar_name" type="hidden" value="{{ bar['name'] }}"> 
                             <input name="bar_location" type="hidden" value="{{ bar['location']['address1'] }}">
+                            <input name="bar_date" type="hidden" value="{{ date }}">
                             <input name="bar_link" type="hidden" value="{{ bar['url'] }}">
                             <input name="bars" type="hidden" value="bars">
                             <center>
@@ -101,10 +103,12 @@
                             <h5 name="activity_name">{{ activity['name'] }}</h5>
                             {% for category in activity ['categories'] %}
                             <h5 name="activity_category">{{ category.title }}</h5>
+                            <h5 name="activity_date"> {{date}} </h5>
                             {% endfor %}
                             <input name="activity_photo" type="hidden" value="{{ activity['image_url']}}"> 
                             <input name="activity_name" type="hidden" value="{{ activity['name'] }}"> 
                             <input name="activity_location" type="hidden" value="{{ activity['location']['address1'] }}">
+                            <input name="activity_date" type="hidden" value="{{date}}"> 
                             <input name="activity_link" type="hidden" value="{{ activity['url'] }}">
                             <input name="activities" type="hidden" value="activities">
                             <center>

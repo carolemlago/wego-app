@@ -171,7 +171,7 @@ def search_itinerary():
             response_active = requests.request("GET", url_business, headers=headers, params=querystring)
             activity_results = response_active.json()['businesses']
     
-    return render_template('user_search.html', events=event_results, bars=bar_results, activities=activity_results, user_id=session['user_id'])
+    return render_template('user_search.html', date=date, events=event_results, bars=bar_results, activities=activity_results, user_id=session['user_id'])
 
 
 
@@ -194,6 +194,7 @@ def save_plan():
     bar_name = request.form.get("bar_name")
     bar_location = request.form.get("bar_location")
     bar_link = request.form.get("bar_link")
+    bar_date = request.form.get("bar_date")
 
     # variables for my activity category plan
     activities_type = request.form.get("activities")
@@ -201,6 +202,7 @@ def save_plan():
     activity_name = request.form.get("activity_name")
     activity_location = request.form.get("activity_location")
     activity_link = request.form.get("activity_link")
+    activity_date = request.form.get("activity_date")
 
     event_plan = {}
     bar_plan = {}
@@ -227,8 +229,8 @@ def save_plan():
         image_url=bar_photo,
         plan_name=bar_name,
         plan_type=bars_type,
-        start_time=None,
-        end_time=None,
+        start_time=bar_date,
+        end_time=bar_date,
         location=bar_location,
         url=bar_link
         ) 
@@ -241,15 +243,15 @@ def save_plan():
         image_url=activity_photo,
         plan_name=activity_name,
         plan_type=activities_type,
-        start_time=None,
-        end_time=None,
+        start_time=activity_date,
+        end_time=activity_date,
         location=activity_location,
         url=activity_link
         ) 
         db.session.add(activity_plan)
 
     
-    print(bar_plan)
+   
     db.session.commit()   
     return render_template('save_plan.html', event_plan=event_plan, bar_plan=bar_plan, activity_plan=activity_plan, user_id=session['user_id'])
 
@@ -264,14 +266,21 @@ def delete_plan():
 
 @app.route('/send_email', methods=['POST'])
 def send_email():
-    to_email = request.json.get('to_email')
-    date_plan = request.json.get('date')
+    to_email = request.json.get('toEmail')
+    date_id = request.json.get('planId')
+
+    date_plan = crud.get_plan_by_id(plan_id=date_id)
+    name = date_plan.plan_name
+    location = date_plan.location
+    start_time = date_plan.start_time
+    end_time = date_plan.end_time
+   
 
     message = Mail(from_email='carolemlago@gmail.com',
                     to_emails=to_email,
                     subject='Your Date Itinerary by Wego',
                     plain_text_content=f'You are going to {date_plan} event',
-                    html_content=f'<strong>You are going to {date_plan} event </strong>'
+                    html_content=f'You are going to {name}, in {location}, from {start_time} to {end_time}'
                     )
                     
     try: 
@@ -283,6 +292,8 @@ def send_email():
 
     except Exception as e:
         print(e.message)
+
+    return ("Success!")
 
 
 
