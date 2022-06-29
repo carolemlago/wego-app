@@ -266,6 +266,8 @@ def delete_plan():
 
 @app.route('/send_email', methods=['POST'])
 def send_email():
+    """ Share chosen event via email """
+
     to_email = request.json.get('toEmail')
     date_id = request.json.get('planId')
 
@@ -296,7 +298,20 @@ def send_email():
     return ("Success!")
 
 
+@app.route('/get_calendar_events')
+def get_calendar_events():
+    """ Get all events from user and add to calendar """
 
+    plans = crud.Plan.query.filter_by(user_id=session['user_id']).all()
+    events = []
+    for plan in plans:
+        plan_dict ={'title': plan.plan_name,
+        'start': plan.start_time.strftime("%Y-%m-%d")
+        }
+        events.append(plan_dict)
+
+
+    return jsonify(events)
 
 
 
