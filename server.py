@@ -9,6 +9,8 @@ from jinja2 import StrictUndefined
 from pprint import pformat
 import os
 import requests
+import time
+import datetime
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
@@ -130,8 +132,9 @@ def search_itinerary():
     event_results = {}
     bar_results = {}
     activity_results = {}
-
-
+    date_unix = time.mktime(datetime.datetime.strptime(date, "%Y-%m-%d").timetuple())
+    print(date_unix)
+    
     headers = {"Authorization": f"Bearer {YELP_API_KEY}"}
 
     for item in types:
@@ -143,8 +146,10 @@ def search_itinerary():
             "attending_count": num_people, 
             "cost_max": int(budget), 
             "location": location,
+            "start_date": int(date_unix)
             }
             response_events = requests.request("GET", url_events, headers=headers, params=querystring)
+            print(response_events)
             event_results = response_events.json()['events']
             
         

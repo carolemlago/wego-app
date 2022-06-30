@@ -8,7 +8,7 @@
           {% if event_plan %}
             <center>    
             <div > You're going to a {{ event_plan.plan_name|capitalize }} </div>
-            <div > Time: {{ event_plan.start_time }} </div>
+            <div > Time: {{ event_plan.start_time }} to {{event_plan.end_time}} </div>
             <div> Address: {{ event_plan.location }} </div>
             <br>
             <img src="{{ event_plan.image_url }}" />
