@@ -275,20 +275,21 @@ def send_email():
 
     to_email = request.json.get('toEmail')
     date_id = request.json.get('planId')
-
+    
     date_plan = crud.get_plan_by_id(plan_id=date_id)
     name = date_plan.plan_name
     location = date_plan.location
     start_time = date_plan.start_time
     end_time = date_plan.end_time
-   
+    url = date_plan.url
+    image = date_plan.image_url
+    
 
     message = Mail(from_email='carolemlago@gmail.com',
                     to_emails=to_email,
                     subject='Your Date Itinerary by Wego',
                     plain_text_content=f'You are going to {date_plan} event',
-                    html_content=f'You are going to {name}, in {location}, from {start_time} to {end_time}'
-                    )
+                    html_content=f'<div> <center> <img src="{image}" /> <br> <div> You are going to {name} <br> <div> Time: { start_time } to {end_time} </div> <br> <div> Address: {location } </div> <br> <a href="{url}"> Learn more</a> <br> </center> </div>')
                     
     try: 
         sg = SendGridAPIClient(os.environ['TWILIO_API_KEY'])
