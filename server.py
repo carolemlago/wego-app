@@ -106,12 +106,9 @@ def show_user(user_id):
 
 
     user = crud.get_user_by_id(user_id)
-    event_plan = crud.get_plans_by_user_and_plan_type(user_id, plan_type="events")
-    bar_plan = crud.get_plans_by_user_and_plan_type(user_id, plan_type="bars")
-    active_plan = crud.get_plans_by_user_and_plan_type(user_id, plan_type="activities")
+   
     
-    
-    return render_template("user_profile.html", user=user, event_plan=event_plan, bar_plan=bar_plan, active_plan=active_plan)
+    return render_template("user_profile.html", user=user)
 
 @app.route('/logout')
 def logout():
@@ -133,7 +130,7 @@ def search_itinerary():
     bar_results = {}
     activity_results = {}
     date_unix = time.mktime(datetime.datetime.strptime(date, "%Y-%m-%d").timetuple())
-    print(date_unix)
+    
     
     headers = {"Authorization": f"Bearer {YELP_API_KEY}"}
 
@@ -283,13 +280,14 @@ def send_email():
     end_time = date_plan.end_time
     url = date_plan.url
     image = date_plan.image_url
+
     
 
     message = Mail(from_email='carolemlago@gmail.com',
                     to_emails=to_email,
                     subject='Your Date Itinerary by Wego',
                     plain_text_content=f'You are going to {date_plan} event',
-                    html_content=f'<div> <center> <img src="{image}" /> <br> <div> You are going to {name} <br> <div> Time: { start_time } to {end_time} </div> <br> <div> Address: {location } </div> <br> <a href="{url}"> Learn more</a> <br> </center> </div>')
+                    html_content=f' <div style="background-color: #cdddd6;"> <center> <img id="app-logo" src="http://res.cloudinary.com/dvbrrbcum/image/upload/v1657221136/cnndckogxrzcwjayahvr.png" width=200px></center> <br> <center> <strong> </strong> </center> <center> <img src="{image}" /> <br> <div> You are going to {name} <br> <div> Time: { start_time } to {end_time} </div> <br> <div> Address: {location } </div> <br> <a href="{url}"> Learn more</a> <br> </center> </div></div>')
                     
     try: 
         sg = SendGridAPIClient(os.environ['TWILIO_API_KEY'])
