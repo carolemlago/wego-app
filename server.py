@@ -17,6 +17,7 @@ from sendgrid.helpers.mail import Mail
 
 
 
+# API keys
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -56,7 +57,8 @@ def create_user():
     if user:
         flash("User email already exists.")
         return redirect("/")
-    
+
+    # Check if passwords match
     elif confirm_password != user_password:
         flash("Passwords don't match. Try again")
         return redirect("/signup")
@@ -104,7 +106,7 @@ def get_user_by_email():
 def show_user(user_id):
     """Show users dashboard."""
 
-
+    # Create user in the database
     user = crud.get_user_by_id(user_id)
    
     
@@ -112,6 +114,7 @@ def show_user(user_id):
 
 @app.route('/logout')
 def logout():
+    """ Logout user from session """
     session.pop('user_id',None)
     return redirect('/')
 
@@ -120,7 +123,7 @@ def logout():
 def search_itinerary():
     """Search for itineraries ideas"""
 
-    # Getting data from my HTML form
+    # Get data from my search form
     num_people = request.args.get("num_people")
     location = request.args.get("location")
     budget = request.args.get("budget")
@@ -131,12 +134,12 @@ def search_itinerary():
     activity_results = {}
     date_unix = time.mktime(datetime.datetime.strptime(date, "%Y-%m-%d").timetuple())
     
-    
+    # Headers for Yelp Fusion API
     headers = {"Authorization": f"Bearer {YELP_API_KEY}"}
 
     for item in types:
 
-        # Check for event in date types
+        # API search for event date ideas
         if "event" in types:
             url_events = 'https://api.yelp.com/v3/events'
             querystring = {
@@ -146,11 +149,10 @@ def search_itinerary():
             "start_date": int(date_unix)
             }
             response_events = requests.request("GET", url_events, headers=headers, params=querystring)
-            print(response_events)
             event_results = response_events.json()['events']
             
         
-        # Check for bar in date types
+        # API search for bar date ideas
         if "bar" in types:
             url_bars = 'https://api.yelp.com/v3/businesses/search'
             querystring = {
@@ -160,9 +162,9 @@ def search_itinerary():
 
             response_bars = requests.request("GET", url_bars, headers=headers, params=querystring)
             bar_results = response_bars.json()['businesses']
-            print(bar_results)
+           
 
-        # Check for active in date types
+        # API search for activity date ideas
         if "activity" in types:
             url_business = 'https://api.yelp.com/v3/businesses/search'   
             querystring = {
@@ -181,81 +183,35 @@ def search_itinerary():
 def save_plan():
     """ Save in the database user's itinerary plan """
 
-    # variables for my event category plan
-    event_type = request.form.get("events")
-    event_photo = request.form.get("event_photo")
-    event_name = request.form.get("event_name")
+    # Data from selected date idea
+    plan_type = request.form.get("type")
+    photo = request.form.get("photo")
+    name = request.form.get("name")
     start_time = request.form.get("start_time")
     end_time = request.form.get("end_time")
-    event_location = request.form.get("event_location")
-    event_link = request.form.get("event_link")
+    location = request.form.get("location")
+    link = request.form.get("link")
+    date = request.form.get("date")
 
-    # variables for my bar category plan
-    bars_type = request.form.get("bars")
-    bar_photo = request.form.get("bar_photo")
-    bar_name = request.form.get("bar_name")
-    bar_location = request.form.get("bar_location")
-    bar_link = request.form.get("bar_link")
-    bar_date = request.form.get("bar_date")
-
-    # variables for my activity category plan
-    activities_type = request.form.get("activities")
-    activity_photo = request.form.get("activity_photo")
-    activity_name = request.form.get("activity_name")
-    activity_location = request.form.get("activity_location")
-    activity_link = request.form.get("activity_link")
-    activity_date = request.form.get("activity_date")
-
-    event_plan = {}
-    bar_plan = {}
-    activity_plan = {}
-    
+    if not start_time:
+        start_time = date
+    if not end_time:
+        end_time = date
     # If event category was selected, create event date plan
-    if event_type:
-        event_plan = crud.create_plan(
+    plan = crud.create_plan(
         user_id=session['user_id'],
-        image_url=event_photo,
-        plan_name=event_name,
-        plan_type=event_type,
+        image_url=photo,
+        plan_name=name,
+        plan_type=plan_type,
         start_time=start_time,
         end_time=end_time,
-        location=event_location,
-        url=event_link
+        location=location,
+        url=link
         ) 
-        db.session.add(event_plan)
-
-    # If bar category was selected, create bar date plan
-    if bars_type:
-        bar_plan = crud.create_plan(
-        user_id=session['user_id'],
-        image_url=bar_photo,
-        plan_name=bar_name,
-        plan_type=bars_type,
-        start_time=bar_date,
-        end_time=bar_date,
-        location=bar_location,
-        url=bar_link
-        ) 
-        db.session.add(bar_plan)
-
-    # If activity category was selected, create activity date plan
-    if activities_type:
-        activity_plan = crud.create_plan(
-        user_id=session['user_id'],
-        image_url=activity_photo,
-        plan_name=activity_name,
-        plan_type=activities_type,
-        start_time=activity_date,
-        end_time=activity_date,
-        location=activity_location,
-        url=activity_link
-        ) 
-        db.session.add(activity_plan)
-
-    
+    db.session.add(plan) 
    
     db.session.commit()   
-    return render_template('save_plan.html', event_plan=event_plan, bar_plan=bar_plan, activity_plan=activity_plan, user_id=session['user_id'])
+    return render_template('save_plan.html', plan=plan, user_id=session['user_id'])
 
 @app.route('/delete_plan', methods=['POST'])
 def delete_plan():
@@ -270,10 +226,14 @@ def delete_plan():
 def send_email():
     """ Share chosen event via email """
 
+    # Get recipient's email and plan id from modal form
     to_email = request.json.get('toEmail')
     date_id = request.json.get('planId')
     
+    # Get plan from database
     date_plan = crud.get_plan_by_id(plan_id=date_id)
+
+    # Data from selected plan
     name = date_plan.plan_name
     location = date_plan.location
     start_time = date_plan.start_time
@@ -282,12 +242,12 @@ def send_email():
     image = date_plan.image_url
 
     
-
+    # Email data
     message = Mail(from_email='carolemlago@gmail.com',
                     to_emails=to_email,
                     subject='Your Date Itinerary by Wego',
                     plain_text_content=f'You are going to {date_plan} event',
-                    html_content=f' <div style="background-color: #cdddd6;"> <center> <img id="app-logo" src="http://res.cloudinary.com/dvbrrbcum/image/upload/v1657221136/cnndckogxrzcwjayahvr.png" width=200px></center> <br> <center> <strong> </strong> </center> <center> <img src="{image}" /> <br> <div> You are going to {name} <br> <div> Time: { start_time } to {end_time} </div> <br> <div> Address: {location } </div> <br> <a href="{url}"> Learn more</a> <br> </center> </div></div>')
+                    html_content=f'<div style="background-color: #cdddd6;"> <center> <img id="app-logo" src="http://res.cloudinary.com/dvbrrbcum/image/upload/v1657221136/cnndckogxrzcwjayahvr.png" width=200px></center> <br> <center> <strong> </strong> </center> <center> <img src="{image}" /> <br> <div> You are going to {name} <br> <div> Time: { start_time } to {end_time} </div> <br> <div> Address: {location } </div> <br> <a href="{url}"> Learn more</a> <br> </center> </div></div>')
                     
     try: 
         sg = SendGridAPIClient(os.environ['TWILIO_API_KEY'])
@@ -306,7 +266,10 @@ def send_email():
 def get_calendar_events():
     """ Get all events from user and add to calendar """
 
+    # Get all plans from logged in user in database
     plans = crud.Plan.query.filter_by(user_id=session['user_id']).all()
+    
+    # Adding each itinerary as a dictionary to an events list
     events = []
     for plan in plans:
         plan_dict ={'title': plan.plan_name,
