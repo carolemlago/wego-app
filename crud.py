@@ -10,10 +10,10 @@ if __name__ == '__main__':
     connect_to_db(app)
 
 
-def create_user(email, password):
+def create_user(fname, lname, email, hashed):
     """Create and return a new user."""
 
-    user = User(email=email, password=password)
+    user = User(fname=fname, lname=lname, email=email, hashed=hashed)
 
     return user
 

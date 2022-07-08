@@ -46,6 +46,7 @@ function initMap() {
   };
   const locations = [sanDiego, losAngeles, sanFrancisco, newYork, portland, denver, miami];
 
+  // Initial location where map is zoomed in
   const usa = {
     title: "USA",
     lat: 37.84186926742124, 
@@ -66,8 +67,9 @@ function initMap() {
       position: location,
       map: map,
       });
-       // Event listener to location selection
 
+
+ // Event listener to location selection
 
     marker.addListener('click', (evt) => {
       

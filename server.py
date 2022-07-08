@@ -4,6 +4,7 @@
 from urllib.parse import _ResultMixinStr
 from flask import Flask, render_template, request, flash, session, redirect, jsonify
 from model import connect_to_db, db
+from passlib.hash import argon2
 import crud
 from jinja2 import StrictUndefined
 from pprint import pformat
@@ -45,27 +46,26 @@ def register_user():
 def create_user():
     """ Create new user """
 
-
-    user_email = request.form.get("email")
+    fname = request.form.get("fname")
+    lname = request.form.get("lname")
+    email = request.form.get("email")
     user_password = request.form.get("password")
-    confirm_password = request.form.get("confirm_password")
     
+    # Hashing password
+    hashed = argon2.hash(user_password)
+    
+    del user_password
 
-    user = crud.get_user_by_email(user_email)
+    user = crud.get_user_by_email(email)
 
     # Check if user already have an account
     if user:
         flash("User email already exists.")
         return redirect("/")
 
-    # Check if passwords match
-    elif confirm_password != user_password:
-        flash("Passwords don't match. Try again")
-        return redirect("/signup")
-
     # Create new user in the database with user's info from the html form
     else:
-        user = crud.create_user(user_email, user_password)
+        user = crud.create_user(fname, lname, email, hashed)
         db.session.add(user)    
         db.session.commit()
         user_id = user.user_id
@@ -83,15 +83,15 @@ def log_in():
 def get_user_by_email():
     """ Check if user's email and password match """
 
-    user_email = request.form.get("email")
-    user_password = request.form.get("password")
+    email = request.form.get("email")
+    password_attempt = request.form.get("password")
 
-    user_info = crud.get_user_by_email(email=user_email)
+    user_info = crud.get_user_by_email(email=email)
    
     
     # Check if user's email and password match info in the database
 
-    if user_info and (user_info.password == user_password):
+    if user_info and argon2.verify(password_attempt, user_info.hashed):
         flash("Logged in!")
         session['user_id'] = user_info.user_id
         return redirect(f"/users/{session['user_id']}")
@@ -193,10 +193,14 @@ def save_plan():
     link = request.form.get("link")
     date = request.form.get("date")
 
+    user = crud.get_user_by_id(user_id=session['user_id'])
+
+    # If selected plan is a bar or activity, there's no specific time
     if not start_time:
         start_time = date
     if not end_time:
         end_time = date
+
     # If event category was selected, create event date plan
     plan = crud.create_plan(
         user_id=session['user_id'],
@@ -211,7 +215,7 @@ def save_plan():
     db.session.add(plan) 
    
     db.session.commit()   
-    return render_template('save_plan.html', plan=plan, user_id=session['user_id'])
+    return render_template('save_plan.html', plan=plan, user=user)
 
 @app.route('/delete_plan', methods=['POST'])
 def delete_plan():
@@ -269,7 +273,7 @@ def get_calendar_events():
     # Get all plans from logged in user in database
     plans = crud.Plan.query.filter_by(user_id=session['user_id']).all()
     
-    # Adding each itinerary as a dictionary to an events list
+    # Adding each itinerary as a dictionary to a list of user's events
     events = []
     for plan in plans:
         plan_dict ={'title': plan.plan_name,

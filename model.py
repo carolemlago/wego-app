@@ -25,8 +25,10 @@ class User(db.Model):
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.String, unique=True)
-    password = db.Column(db.String)  
+    fname = db.Column(db.String(25), nullable=False)
+    lname = db.Column(db.String(25), nullable=False)
+    email = db.Column(db.String(25), nullable=False, unique=True)
+    hashed = db.Column(db.String(100), nullable=False)  
 
     plans = db.relationship("Plan", back_populates="user")
 
