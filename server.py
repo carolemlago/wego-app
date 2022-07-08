@@ -50,6 +50,7 @@ def create_user():
     lname = request.form.get("lname")
     email = request.form.get("email")
     user_password = request.form.get("password")
+    confirm_password = request.form.get("confirm_password")
     
     # Hashing password
     hashed = argon2.hash(user_password)
@@ -62,6 +63,9 @@ def create_user():
     if user:
         flash("User email already exists.")
         return redirect("/")
+
+    elif not argon2.verify(confirm_password, hashed):
+        flash("Passwords don't match. Try again.")
 
     # Create new user in the database with user's info from the html form
     else:
@@ -193,6 +197,7 @@ def save_plan():
     link = request.form.get("link")
     date = request.form.get("date")
 
+    # Getting data from user in session
     user = crud.get_user_by_id(user_id=session['user_id'])
 
     # If selected plan is a bar or activity, there's no specific time
@@ -237,6 +242,9 @@ def send_email():
     # Get plan from database
     date_plan = crud.get_plan_by_id(plan_id=date_id)
 
+    # Getting data from user in session
+    user = crud.get_user_by_id(user_id=session['user_id'])
+
     # Data from selected plan
     name = date_plan.plan_name
     location = date_plan.location
@@ -251,7 +259,7 @@ def send_email():
                     to_emails=to_email,
                     subject='Your Date Itinerary by Wego',
                     plain_text_content=f'You are going to {date_plan} event',
-                    html_content=f'<div style="background-color: #cdddd6;"> <center> <img id="app-logo" src="http://res.cloudinary.com/dvbrrbcum/image/upload/v1657221136/cnndckogxrzcwjayahvr.png" width=200px></center> <br> <center> <strong> </strong> </center> <center> <img src="{image}" /> <br> <div> You are going to {name} <br> <div> Time: { start_time } to {end_time} </div> <br> <div> Address: {location } </div> <br> <a href="{url}"> Learn more</a> <br> </center> </div></div>')
+                    html_content=f'<div style="background-color: #cdddd6;"> <center> <img id="app-logo" src="http://res.cloudinary.com/dvbrrbcum/image/upload/v1657221136/cnndckogxrzcwjayahvr.png" width=200px></center> <br> <center> <strong> </strong> </center> <center> <img src="{image}" /> <br> <div> {user.fname} is inviting you to go to {name} <br> <div> Time: { start_time } to {end_time} </div> <br> <div> Address: {location } </div> <br> <a href="{url}"> Learn more</a> <br> </center> </div></div>')
                     
     try: 
         sg = SendGridAPIClient(os.environ['TWILIO_API_KEY'])
