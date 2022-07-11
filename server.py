@@ -110,16 +110,27 @@ def get_user_by_email():
 def show_user(user_id):
     """Show users dashboard."""
 
-    # Create user in the database
-    user = crud.get_user_by_id(user_id)
+
+    if "user_id" in session:
+        # Create user in the database
+        print(user_id)
+        print("*******")
+        user = crud.get_user_by_id(user_id)
+
+        return render_template("user_profile.html", user=user)
+        
+
+    else:
+        flash("You must be logged in to view user dashboard page")
+        return redirect("/login")
+
    
-    
-    return render_template("user_profile.html", user=user)
 
 @app.route('/logout')
 def logout():
     """ Logout user from session """
     session.pop('user_id',None)
+    flash("Logged Out.")
     return redirect('/')
 
         
