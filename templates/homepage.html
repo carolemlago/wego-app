@@ -4,31 +4,51 @@
 
 {% block head %}{% endblock %}
 
-{% block body %} 
-<center>  
-    
-  <section> 
+{% block body %}
+<body class="home">
+     <!-- Nav bar with app logo and logout -->
+     <nav class="navbar navbar-light" style="background-color: #cdddd6;">
+      <div class="container-fluid">
+          <div class="logo-section d-flex w-90">
+              <div class="justify-content-start">
+                  <a class="navbar-brand" href="/">
+                      <img id="app-logo" alt="logo" class="logo" src="/static/img/wego-logo.png">
+                  </a>
+              </div>
+          </div>
+          <div class="logout justify-content-center d-flex w-10">
+              <a class="nav-link" style="color: rgb(42, 84, 49)" href="/logout"> Logout </a>
+          </div>
+      </div>
+    </nav>
+  <center> 
     <h1> Wego </h1> 
     <h2> Let Us Do The Planing For You </h2>
-  </section>
+  </center>
 
-  <!-- Create account -->
-  <section>
-    <h2>Sign Up</h2>
-      <form action="/signup" >
-      <p>
-          <button id="signup-button" type="submit">Sign Up</button>
-      </p>
-      </form>
-  </section>
-<!-- Log In -->
-  <section>
-      <h2>Log In</h2>
-      <form action="/login" >
-        <p>
-          <button id="login-button" type="Submit">Log In</button>
-        </p>
-      </form> 
-  </section>
-</center>     
+
+  <div class="wrapper" style="margin-top: 10%">
+    <div class="row g-2">
+      <div class="col-6">
+        <!-- Log In -->
+        <h2>Log In</h2>
+          <form action="/login" >
+            <p>
+              <button id="login-button" type="Submit">Log In</button>
+            </p>
+          </form>
+      </div>
+      <div class="col-6">
+        <!-- Create Account -->
+        <h2>Sign Up</h2>
+          <form action="/signup" >
+          <p>
+            <button id="signup-button" type="submit">Sign Up</button>
+          </p>
+          </form>
+      </div>
+    </div> 
+  </div>
+</body>
+   
 {% endblock %}

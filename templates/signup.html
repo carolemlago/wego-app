@@ -5,44 +5,52 @@
 {% block head %}{% endblock %}
 
 {% block body %} 
-
-<center>
-    <section> 
-    
+     <!-- Nav bar with app logo and logout -->
+     <nav class="navbar navbar-light" style="background-color: #cdddd6;">
+        <div class="container-fluid">
+            <div class="logo-section d-flex w-90">
+                <div class="justify-content-start">
+                    <a class="navbar-brand" href="/">
+                        <img id="app-logo" alt="logo" class="logo" src="/static/img/wego-logo.png">
+                    </a>
+                </div>
+            </div>
+            <div class="logout justify-content-center d-flex w-10">
+                <a class="nav-link" style="color: rgb(42, 84, 49)" href="/logout"> Logout </a>
+            </div>
+        </div>
+    </nav>
+    <center>
     <h1> Wego </h1> 
-
     <h2> Let Us Do The Planing For You </h2>
-    </section>
-    <section>
+    </center>
+    <div class="wrapper" style="margin-top: 10%">
+        <div class="row">
+        <div class="col-sm">
         <!-- Sign Up info -->
         <h2>Sign Up</h2>
         <form action="/create_user" method="POST">
-
         <p>
             First Name: <input type="text" name="fname" required>
         </p>
-
         <p>
             Last Name: <input type="text" name="lname" required>
         </p>
-
         <p>
             Email: <input type="text" name="email" required>
         </p>
-
         <p>
             Password: <input type="password" name="password" required>
         </p>
-
         <p>
             Confirm Password: <input type="password" name="confirm_password" required>
         </p>
-
         <p>
             <button type="Submit">Sign Up</button>
         </p>
         </form>
-    </section>
-</center>
+        </div>
+        </div>
+    </div>
  
 {% endblock %}

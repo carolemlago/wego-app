@@ -1,16 +1,31 @@
 {% extends 'base.html' %}
 {% block body %}
-<h1> Hello, {{user.fname}} </h1>
-<h2> Your Itinerary is: </h2>
+
+  <!-- Nav bar with app logo and logout -->
+  <nav class="navbar navbar-light" style="background-color: #cdddd6;">
+      <div class="container-fluid">
+          <div class="logo-section d-flex w-90">
+              <div class="justify-content-start">
+                  <a class="navbar-brand" href="/">
+                      <img id="app-logo" alt="logo" class="logo" src="/static/img/wego-logo.png">
+                  </a>
+              </div>
+          </div>
+          <div class="logout justify-content-center d-flex w-10">
+              <a class="nav-link" style="color: rgb(42, 84, 49)" href="/logout"> Logout </a>
+          </div>
+      </div>
+  </nav>
+<h2> {{user.fname}}, here's your itinerary: </h2>
   
         <form action="/users/{{user.user_id}}" > 
           <!-- Date Idea Result  -->
             <center>    
-            <div > You're going to a {{ plan.plan_name|capitalize }} </div>
+            <h5> You're going to a {{ plan.plan_name|capitalize }} </h5>
             {% if plan.plan_type == "events" %}
-            <div > Time: {{ plan.start_time }} to {{plan.end_time}} </div>
+            <p> Time: {{ plan.start_time }} to {{plan.end_time}} </p>
             {% endif %}
-            <div> Address: {{ plan.location }} </div>
+            <p> Address: {{ plan.location }} </p>
             <br>
             <img src="{{ plan.image_url }}" />
             <br>

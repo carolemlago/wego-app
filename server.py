@@ -112,9 +112,8 @@ def show_user(user_id):
 
 
     if "user_id" in session:
+        
         # Create user in the database
-        print(user_id)
-        print("*******")
         user = crud.get_user_by_id(user_id)
 
         return render_template("user_profile.html", user=user)
