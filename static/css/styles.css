@@ -1,54 +1,69 @@
-body {
-    background-color: whitesmoke;
-  }
-/* 
-body.background-img {
-  background-image:url('/static/img/couple-background.jpg');
+html,
+body 
+.background {
+  min-height: 100%;
+  background-image: url("https://i0.wp.com/css-tricks.com/wp-content/uploads/2020/11/css-gradient.png?fit=1200%2C600&ssl=1");
+  background-position: center center;
+  background-repeat: no-repeat;
   background-size: cover;
-  width: 100%;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  } */
-  
-h1 {
-  color: #3A5A40;
-  font-family: 'Quando', serif;
 }
 
-h2 {
-  color: #3A5A40;
-  font-family: 'Raleway', sans-serif; 
+html,
+body,
+.no-background {
+  background-color: whitesmoke !important;
+  background-image: none !important;
+  background-size: cover;
+} 
+
+/*Login Page Styling*/
+.wego-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-lg {
+  padding: 12px 26px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+::placeholder {
+font-size:14px;
+letter-spacing:0.5px;
+}
+.form-control-lg {
+  font-size: 16px;
+  padding: 25px 20px;
+}
+.font-500{
+font-weight:500;
 }
 
-h5 {
-  font-family: 'Raleway', sans-serif;
+
+.btn-login {
+  font-size: 0.9rem;
+  letter-spacing: 0.05rem;
+  padding: 0.75rem 1rem;
 }
 
-p{
-  font-family: 'Raleway', sans-serif;
+#carouselCaptions{
+  width: 50%;
+  margin: auto;
+}
+.plans {
+  display: inline-block;
+  width: 50%;
 }
 
-.logo-section {
-  width: 90%;
-  justify-content: flex-start;  
+.carousel-image{
+  width:100%;
+  margin: auto;
+  margin-top: 20%;
 }
 
-.logo, 
-#app-logo {
-  width: 100%;
-  height: 100px;  
-}
-
-.logout {
-  width: 10%;
-}
-
-.map,
-#map {
-  width: 80%;
-  height: 60%;
-}
+/* User's Dashboard Page */
 
 .wrapper {
   position:relative;
@@ -67,11 +82,28 @@ p{
   display: flex;
   justify-content: center;
 }
+/* 
+#floatingSelectGrid {
+  color: #e9ecef;
+  background-color: #d63384;
+} */
 
-#carouselCaptions{
-  width: 50%;
-  margin: auto;
+.line {
+  height: 1px;
+  background: rgb(255, 254, 254);
 }
+
+.float-container {
+  padding: 20px;
+}
+
+.float-child {
+  width: -moz-fit-content;
+  width: fit-content;
+  float: left;
+  padding: 20px;
+  inline-size: fit-content;
+}  
 .plans {
   display: inline-block;
   width: 50%;
@@ -81,6 +113,10 @@ p{
   width:100%;
   margin: auto;
 }
+
+.carousel-item.active {
+  margin-top: 10%;
+}
 .card.col-4{
   height: 30%;
   width: 30%;
@@ -89,26 +125,73 @@ p{
   height: 300px;
 }
 
-.btn {
-  background-color: #0d6efd;
+.navbar-custom {
+  position: absolute;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: rgb(0, 0, 0);
+}
+.navbar-custom .navbar-brand {
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: 0.1rem;
+  font-weight: 700;
+}
+.navbar-custom .navbar-nav .nav-item .nav-link {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-  font-size: 14px;
+
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #d63384;
+  --bs-btn-border-color: #d63384;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #d63384;
+  --bs-btn-hover-border-color: #d63384;
+  --bs-btn-focus-shadow-rgb: 49,132,253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #d63384;
+  --bs-btn-active-border-color: #d63384;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #d63384;
+  --bs-btn-disabled-border-color: #d63384;
 }
 
-.fc .fc-button-primary {
-  background-color: #0d6efd;
+.btn-outline-primary {
+  --bs-btn-color: #d63384;
+  --bs-btn-border-color: #d63384;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #d63384;
+  --bs-btn-hover-border-color: #d63384;
+  --bs-btn-focus-shadow-rgb: 13,110,253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #d63384;
+  --bs-btn-active-border-color: #d63384;
+  --bs-btn-active-shadow: inset 0 3px 5pxrgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #d63384;
+  --bs-btn-disabled-bg: transparent;
+  --bs-gradient: none;
 }
 
-.fc .fc-button-primary:not(:disabled).fc-button-active {
-  background-color: #084298;
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 #calendar {
   max-width: 1100px;
   margin: 40px auto;
+  display: inline-block;
+  margin-right: -20%;
+}
+
+.col-md-6 {
+  flex: 0 0 auto;
+  width: 50%;
 }

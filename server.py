@@ -263,13 +263,14 @@ def send_email():
     url = date_plan.url
     image = date_plan.image_url
 
+    print("Hello")
     
     # Email data
     message = Mail(from_email='carolemlago@gmail.com',
                     to_emails=to_email,
                     subject='Your Date Itinerary by Wego',
                     plain_text_content=f'You are going to {date_plan} event',
-                    html_content=f'<div style="background-color: #cdddd6;"> <center> <img id="app-logo" src="http://res.cloudinary.com/dvbrrbcum/image/upload/v1657221136/cnndckogxrzcwjayahvr.png" width=200px></center> <br> <center> <strong> </strong> </center> <center> <img src="{image}" /> <br> <div> {user.fname} is inviting you to go to {name} <br> <div> Time: { start_time } to {end_time} </div> <br> <div> Address: {location } </div> <br> <a href="{url}"> Learn more</a> <br> </center> </div></div>')
+                    html_content=f'<div style="background-color: rgba(0,0,0,0.6); color: white;"> <center> <img id="app-logo" src="https://boxylife.sirv.com/CAROLE/newego-logo.png" width=200px></center> <br> <center> <strong> </strong> </center> <center> <img src="{image}" /> <br> <div> {user.fname} is inviting you to go to {name} <br> <div> Time: { start_time } to {end_time} </div> <br> <div> Address: {location } </div> <br> <a href="{url}" style="color:#d63384;"> Learn more</a> <br> </center> </div></div>')
                     
     try: 
         sg = SendGridAPIClient(os.environ['TWILIO_API_KEY'])

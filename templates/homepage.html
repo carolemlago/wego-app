@@ -4,51 +4,62 @@
 
 {% block head %}{% endblock %}
 
-{% block body %}
-<body class="home">
-     <!-- Nav bar with app logo and logout -->
-     <nav class="navbar navbar-light" style="background-color: #cdddd6;">
-      <div class="container-fluid">
-          <div class="logo-section d-flex w-90">
-              <div class="justify-content-start">
-                  <a class="navbar-brand" href="/">
-                      <img id="app-logo" alt="logo" class="logo" src="/static/img/wego-logo.png">
-                  </a>
-              </div>
-          </div>
-          <div class="logout justify-content-center d-flex w-10">
-              <a class="nav-link" style="color: rgb(42, 84, 49)" href="/logout"> Logout </a>
-          </div>
-      </div>
-    </nav>
-  <center> 
-    <h1> Wego </h1> 
-    <h2> Let Us Do The Planing For You </h2>
-  </center>
+{% block body %} 
+<div class="background" style="background-image: 'https://i0.wp.com/css-tricks.com/wp-content/uploads/2020/11/css-gradient.png?fit=1200%2C600&ssl=1';">
+
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+            <div class="container px-5">
+                <a class="navbar-brand" href="/">
+                    <img id="app-logo" alt="logo" class="logo" src="/static/img/newego-logo.png" height="55">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto">
+                      <form action="/login"><li class="nav-item" style = "padding-right: 15px;"><button id="login-button" type="submit" type="button" class="btn btn-md btn-outline-primary">Login</button></li></form>
+                      <form action="/signup"><li class="nav-item"><button id="signup-button" type="Submit" type="button" class="btn btn-md btn-outline-primary">Signup</button></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Header-->
+        <br>
+        <br>
+        <br>
+            <div class="masthead text-center text-white">
+                <div class="masthead-content" style="padding-top: 120px;">
+
+                    <div class="container px-5">
+                        <h1 class="masthead-heading mb-0">Welcome to Wego</h1>
+                        <h2>Find the best local date night spots for all occasions. Let us do the planning.
+                            Available nationwide in cities like San Diego, Los Angeles, San Francisco, New York, 
+                            Portland, Denver, and Miami.</h2>
+                    </div>
+                </div>
+
+            </div>
+            <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+        <!-- Footer-->
+        <footer id="footer" class="py-5 bg-black">
+          <div class="container px-5"><p class="m-0 text-center text-white small">Copyright &copy; Carole Mendes Lago 2022</p></div>
+      </footer>
 
 
-  <div class="wrapper" style="margin-top: 10%">
-    <div class="row g-2">
-      <div class="col-6">
-        <!-- Log In -->
-        <h2>Log In</h2>
-          <form action="/login" >
-            <p>
-              <button id="login-button" type="Submit">Log In</button>
-            </p>
-          </form>
-      </div>
-      <div class="col-6">
-        <!-- Create Account -->
-        <h2>Sign Up</h2>
-          <form action="/signup" >
-          <p>
-            <button id="signup-button" type="submit">Sign Up</button>
-          </p>
-          </form>
-      </div>
-    </div> 
-  </div>
-</body>
-   
+</div>
 {% endblock %}
+

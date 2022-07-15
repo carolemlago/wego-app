@@ -1,42 +1,38 @@
 {% extends 'base.html' %}
 {% block body %}
-
+<div class="no-background" style="background-color: whitesmoke !important;">
   <!-- Nav bar with app logo and logout -->
-  <nav class="navbar navbar-light" style="background-color: #cdddd6;">
-      <div class="container-fluid">
-          <div class="logo-section d-flex w-90">
-              <div class="justify-content-start">
-                  <a class="navbar-brand" href="/">
-                      <img id="app-logo" alt="logo" class="logo" src="/static/img/wego-logo.png">
-                  </a>
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+          <div class="container px-5">
+              <a class="navbar-brand" href="/">
+                  <img id="app-logo" alt="logo" class="logo" src="/static/img/newego-logo.png" height="55">
+              </a>
+                  <div class="logout justify-content-center d-flex w-10">
+                      <a class="nav-link" style="color: white" href="/logout"> Logout </a>
+                  </div>
+              
+          </div>
+      </nav>  
+    <form action="/users/{{user.user_id}}" >
+      <center>
+        <div class="container">
+          <div class="row" style="justify-content: center;"">
+              <div class="card" style="width: 40%; justify-content: center;margin-top: 10%;">
+                <img src="{{ plan.image_url }}" class="card-img-top"/>
+                  <div class="card-body">
+                    <h5 class="card-title">{{user.fname}}, here's your itinerary:</h5>
+                    <p class="card-text">You're going to a {{ plan.plan_name|capitalize }} </p>
+                      {% if plan.plan_type == "events" %}
+                      <p> Time: {{ plan.start_time }} to {{plan.end_time}} </p>
+                      {% endif %}
+                      <p> Address: {{ plan.location }} </p>
+                      <br>
+                    <a href="/users/{{user.user_id}}" class="btn btn-primary">View All Plans</a>
+                  </div>
               </div>
-          </div>
-          <div class="logout justify-content-center d-flex w-10">
-              <a class="nav-link" style="color: rgb(42, 84, 49)" href="/logout"> Logout </a>
-          </div>
-      </div>
-  </nav>
-<h2> {{user.fname}}, here's your itinerary: </h2>
-  
-        <form action="/users/{{user.user_id}}" > 
-          <!-- Date Idea Result  -->
-            <center>    
-            <h5> You're going to a {{ plan.plan_name|capitalize }} </h5>
-            {% if plan.plan_type == "events" %}
-            <p> Time: {{ plan.start_time }} to {{plan.end_time}} </p>
-            {% endif %}
-            <p> Address: {{ plan.location }} </p>
-            <br>
-            <img src="{{ plan.image_url }}" />
-            <br>
-            <a href="url"> Link: {{ plan.url}} </a>
-            <br>
-            </center> 
-                <!-- Button to redirect to user's dashboard  -->
-            <center>
-              <button id="confirmation_event" type="submit" value="yes">View All Plans<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
-                <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
-              </svg></button>
-            </center>        
-    </form>
+          </div> 
+        </div>
+      </center>              
+    </form>   
 {% endblock %}
+</div> 

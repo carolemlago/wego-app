@@ -13,134 +13,138 @@
     
 {% block body %}
     
-     <!-- Nav bar with app logo and logout -->
-        <nav class="navbar navbar-light" style="background-color: #cdddd6;">
-            <div class="container-fluid">
-                <div class="logo-section d-flex w-90">
-                    <div class="justify-content-start">
-                        <a class="navbar-brand" href="/">
-                            <img id="app-logo" alt="logo" class="logo" src="/static/img/wego-logo.png">
-                        </a>
-                    </div>
-                </div>
-                <div class="logout justify-content-center d-flex w-10">
-                    <a class="nav-link" style="color: rgb(42, 84, 49)" href="/logout"> Logout </a>
-                </div>
+  <!-- Nav bar with app logo and logout -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container px-5">
+            <a class="navbar-brand" href="/">
+                <img id="app-logo" alt="logo" class="logo" src="/static/img/newego-logo.png" height="55">
+            </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.fname }}</a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/logout"> Logout </a>
+                        </div>
+                    </li>
+                </ul>
             </div>
-        </nav>
-        <center>
-            <h1> Hello, {{ user.fname }}</h1>
-    
-            <h2> What's your next date plan?</h2>
-        </center>
-        <center>
-            <!-- Google Map div -->
-            <div id="map" class="map" style="width:700px; height:500px"></div>
-        </center>
+        </div>
+    </nav> 
+<div class="container" style="margin-top: 10%;">
+    <div class="row">
+
+        <!-- Google Map div -->
+        <div class="col-8">
+            <div id="map" class="map" style="height:500px"></div>
+        </div>
         <br>
-   
-    <!-- User's search filters -->
-    <div class="wrapper">
-    <form action="/user/search" >
+
+        <!-- User's search filters -->
+        <div class="col-4" style="margin-top: 10%;">
+            <div class="wrapper">
+                <form action="/user/search" >
                 <!-- Category Type -->
-                <div class="center-button">
-                <div class="form-check-inline form-switch">
-                    <input type="checkbox" id="category-event flexSwitchCheckDefault" class="form-check-input" name="type" value="event">
-                    <label class="form-check-label" for="flexSwitchCheckDefault"> Event </label>
-                </div>
-                <div class="form-check-inline form-switch"> 
-                    <input type="checkbox" id="category-bar flexSwitchCheckDefault" class="form-check-input" name="type" value="bar"> 
-                    <label for="bar"> Bar </label> 
-                </div>
-                <div class="form-check-inline form-switch"> 
-                    <input type="checkbox" id="category-activity flexSwitchCheckDefault" class="form-check-input" name="type" value="activity"> 
-                    <label for="activity"> Activity </label>
-                </div>
-                </div>
-            <div class="row g-2">
-            <div class="col-6">
-                <!-- How many people  -->
-                <div class="form-floating">
-                    <div class="dropdown">
-                        <label id="num_people"> How Many People</label> 
-                        <select name="num_people" class="form-select" id="floatingSelectGrid" required> 
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
+                    <div class="center-button">
+                        <div class="form-check-inline form-switch">
+                            <input type="checkbox" id="category-event flexSwitchCheckDefault" class="form-check-input" name="type" value="event">
+                            <label class="form-check-label" for="flexSwitchCheckDefault"> Event </label>
+                        </div>
+                        <div class="form-check-inline form-switch"> 
+                            <input type="checkbox" id="category-bar flexSwitchCheckDefault" class="form-check-input" name="type" value="bar"> 
+                            <label for="bar"> Bar </label> 
+                        </div>
+                        <div class="form-check-inline form-switch"> 
+                            <input type="checkbox" id="category-activity flexSwitchCheckDefault" class="form-check-input" name="type" value="activity"> 
+                            <label for="activity"> Activity </label>
+                        </div>
                     </div>
+                        <div class="row g-2">
+                        <div class="col-6">
+                            <!-- How many people  -->
+                            <div class="form-floating">
+                                <div class="dropdown">
+                                    <label id="num_people"> How Many People</label> 
+                                    <select name="num_people" class="form-select" required> 
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </div>
+                            </div>
+                        <br>
+                        <!-- Location -->
+                            <div class="form-floating">
+                                <div class="dropdown">
+                                <label id="location-filter"> Location</label> 
+                                <select name="location" id="location" class="form-select" required> 
+                                    <option value="San Diego, CA">San Diego, CA</option>
+                                    <option value="Los Angeles, CA">Los Angeles, CA</option>
+                                    <option value="San Francisco, CA">San Francisco, CA</option>
+                                    <option value="New York, NY">New York, NY</option>
+                                    <option value="Portland, OR">Portland, OR</option>
+                                    <option value="Denver, CO">Denver, CO</option>
+                                    <option value="Miami, FL">Miami, FL</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                        <!-- Date -->
+                    <div class="col-6">
+                        <div>
+                            <label>Date
+                                <input type="date" id="date" name="date" class="form-select" required pattern="\d{4}-\d{2}-\d{2}">
+                                <span class="validity"></span>
+                                </label>
+                        </div> 
+                        <br>
+                        <!-- Budget -->
+                        <div class="form-floating">
+                            <div class="dropdown">
+                                <label id="budget"> Budget</label> 
+                                <select name="budget" class="form-select" required> 
+                                    <option value="50">$</option>
+                                    <option value="100">$$</option>
+                                    <option value="500">$$$</option>
+                                    <option value="1000">$$$$</option>
+                                </select>
+                            </div>
+                        </div>     
+                    </div>
+                    <div class="form-floating center-button" id="plan-button">
+                        <button id="floatingSelectGrid" type="submit">Plan My Date</button>
+                    </div>
+                </form>
                 </div>
-            <br>
-            <!-- Location -->
-                <div class="form-floating">
-                    <div class="dropdown">
-                    <label id="location-filter"> Location</label> 
-                    <select name="location" id="location" class="form-select" required> 
-                        <option value="San Diego, CA">San Diego, CA</option>
-                        <option value="Los Angeles, CA">Los Angeles, CA</option>
-                        <option value="San Francisco, CA">San Francisco, CA</option>
-                        <option value="New York, NY">New York, NY</option>
-                        <option value="Portland, OR">Portland, OR</option>
-                        <option value="Denver, CO">Denver, CO</option>
-                        <option value="Miami, FL">Miami, FL</option>
-                    </select>
-                </div>
-            </div>
-            <br>
-        </div>
-            <!-- Date -->
-        <div class="col-6">
-            <div>
-                <label>Date
-                    <input type="date" id="date" name="date" class="form-select" required pattern="\d{4}-\d{2}-\d{2}">
-                    <span class="validity"></span>
-                    </label>
+                <br>
             </div> 
-            <br>
-            <!-- Budget -->
-            <div class="form-floating">
-                <div class="dropdown">
-                    <label id="budget"> Budget</label> 
-                    <select name="budget" class="form-select" id="floatingSelectGrid" required> 
-                        <option value="50">$</option>
-                        <option value="100">$$</option>
-                        <option value="500">$$$</option>
-                        <option value="1000">$$$$</option>
-                    </select>
-                </div>
-            </div>     
-        </div>
-        <div class="form-floating center-button" id="plan-button">
-            <button id="floatingSelectGrid" type="submit">Plan My Date</button>
-        </div>
-    </form>
+        </div>   
     </div>
-        <br>
-    </div>
-</center> 
+
+    <br>
+    <br>
+    <div class="line"></div>
+    <br>
 
     <!-- User's events -->
-    <div class="container">
-        <center>
-            <h2>Your Dates</h2>
-        <div class="row" style="margin-left: 10%;">
+    <div class="row align-items-md-stretch" style="margin-left: 10%;">
+
+            <!-- Display Date Plans -->
+            <div class="col-md-8 float-container" style="margin-left: -10%;">
+
+                <h2>Your Dates</h2>
                 {% for plan in user.plans %}
-
-                    <!-- Display Date Plans -->
-
-                    <div class="card col-4" id="plan-div{{loop.index0}}">
+                    <div class="card col-4 float-child" id="plan-div{{loop.index0}}">
                         <img src="{{ plan.image_url }}" class="card-img-top" alt="{{ plan.image_url }}"> 
                         <br>
                         <h5 class="card-title">{{ plan.plan_name}}</h5>
                         <p class="card-text">You're going to {{plan.plan_name}}</p>
                         <input id="plan-id{{loop.index0}}" value="{{plan.plan_id}}" hidden> </input>
-                        <br>
-                        <p>{{ plan.location }}</p>
-                        <br>
-                        <p>{{ plan.start_time.strftime("%m-%d-%Y") }} to {{ plan.end_time.strftime("%m-%d-%Y") }}</p>
-                        <br>
+                        <!-- <p>{{ plan.location }}</p>
+                        <p>{{ plan.start_time.strftime("%m-%d-%Y") }} to {{ plan.end_time.strftime("%m-%d-%Y") }}</p> -->
                         <a href="{{ plan.url }}"class="btn btn-primary">Go to Website</a>
                             <!-- Delete Event -->
                             <button class="delete" type="click" id="{{plan.plan_id}}" name="delete-plan">Delete Event <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -152,6 +156,8 @@
                                 <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2H2Zm3.708 6.208L1 11.105V5.383l4.708 2.825ZM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2-7-4.2Z"/>
                                 <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686Z"/>
                             </svg></button>
+
+
                              <!-- Modal -->
                                 <div class="modal fade" id="modal{{loop.index0}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -172,8 +178,13 @@
                     </div>
                 {% endfor %}
         </div>
-        </center>
+
+            <!-- Calendar Div -->
+            <div class="col-md-4">
+                <div id='calendar'></div>
+            </div> 
     <div>
+</div>        
 
     <!-- Calendar Div -->
     <div id='calendar'></div>

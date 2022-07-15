@@ -120,25 +120,18 @@ for (let i = 0; i < deleteButton.length; i++) {
 //  Event handler to share event
 
 const shareButton = document.querySelectorAll('.share');
-console.log(shareButton);
 
 for (let i = 0; i < shareButton.length; i++) {
-  console.log("i = ", i)
     
     const handleClickShare = (evt) => {
-      console.log("in event listener i = ", i)
-   
-    console.log(evt.target);
-    console.log(evt.target.id);
+
     const planId = document.getElementById(`plan-id${i}`).value;
-    console.log(document.getElementById(`plan-id${i}`));
 
     const formInputs = {
       planId: planId,
       toEmail: document.getElementById(`to-email${planId}`).value,
     };
-    console.log("******");
-    console.log(planId);
+
     fetch('/send_email', {
       method: 'POST',
       body: JSON.stringify(formInputs),
@@ -178,7 +171,8 @@ document.addEventListener('DOMContentLoaded', function() {
           center: 'title',
           right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
-    
+        
+        height: "auto",
         events: responseData
       });
     
