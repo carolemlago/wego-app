@@ -93,11 +93,11 @@
         <div class="carousel-inner">
             {% for activity in activities %}
                 {% if activity == activities[0] %} 
-                    <div class="carousel-item active"> 
+                    <div class="carousel-item active" style="height: 150px;"> 
                 {% else %}
                     <div class="carousel-item"> 
                 {% endif%}    
-                    <img src="{{ activity['image_url'] }}" name="activity_photo" class="carousel-image mx-auto" >
+                    <img src="{{ activity['image_url'] }}" name="activity_photo" class="carousel-image" >
                     <div class="carousel-caption d-none d-md-block">  
                         </div>
                         <div>
@@ -138,6 +138,20 @@
         </div>
     </div>
     </center>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
 </div>
 {% endblock %}   
 

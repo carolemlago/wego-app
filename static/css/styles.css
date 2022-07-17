@@ -27,6 +27,7 @@ body,
   background-size: cover;
 } 
 
+
 /*Login Page Styling*/
 .wego-container {
   display: flex;
@@ -69,7 +70,8 @@ font-weight:500;
 }
 
 .carousel-image{
-  width:100%;
+  height: 500px;
+  width: 80%;
   margin: auto;
   margin-top: 20%;
 }
