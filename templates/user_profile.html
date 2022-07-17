@@ -12,6 +12,7 @@
 
     
 {% block body %}
+<div class="no-background">
     
   <!-- Nav bar with app logo and logout -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
@@ -177,14 +178,13 @@
                             <br>
                     </div>
                 {% endfor %}
-        </div>
+    </div>
 
             <!-- Calendar Div -->
             <div class="col-md-4">
                 <div id='calendar'></div>
             </div> 
-    <div>
-</div>        
+    <div>       
 
     <!-- Calendar Div -->
     <div id='calendar'></div>
@@ -197,8 +197,7 @@
         async    
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDL5wGUSTxfoQOh7lLz9d-Ys58N81IpDoE&callback=initMap">
     </script>  
-     
-</body>
 
+</div>
 {% endblock %}
 
