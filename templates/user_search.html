@@ -69,7 +69,6 @@
                             <form action="/save_plan" method='POST'>
                                 <center>
                                 <h5 name="bar_name">{{ bar['name'] }}</h5>
-                                <h5 name="bar_date" >{{date}} </h5>
                                 </center>
                                 <input name="photo" type="hidden" value="{{ bar['image_url']}}"> 
                                 <input name="name" type="hidden" value="{{ bar['name'] }}"> 
@@ -93,7 +92,7 @@
         <div class="carousel-inner">
             {% for activity in activities %}
                 {% if activity == activities[0] %} 
-                    <div class="carousel-item active" style="height: 150px;"> 
+                    <div class="carousel-item active"> 
                 {% else %}
                     <div class="carousel-item"> 
                 {% endif%}    
@@ -103,10 +102,6 @@
                         <div>
                             <form action="/save_plan" method='POST'>
                                 <h5 name="activity_name">{{ activity['name'] }}</h5>
-                                {% for category in activity ['categories'] %}
-                                <h5 name="activity_category">{{ category.title }}</h5>
-                                <h5 name="activity_date"> {{date}} </h5>
-                                {% endfor %}
                                 <input name="photo" type="hidden" value="{{ activity['image_url']}}"> 
                                 <input name="name" type="hidden" value="{{ activity['name'] }}"> 
                                 <input name="location" type="hidden" value="{{ activity['location']['address1'] }}">
@@ -154,6 +149,3 @@
 
 </div>
 {% endblock %}   
-
- 
-

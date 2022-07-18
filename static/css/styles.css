@@ -2,7 +2,7 @@ html,
 body 
 .background {
   min-height: 100vh;
-  background-image: url(/static/img/bar-fun-final.jpg);
+  background-image: url(/static/img/background.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -16,7 +16,6 @@ body,
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  background-size: cover;
 } 
 
 html,
@@ -70,8 +69,7 @@ font-weight:500;
 }
 
 .carousel-image{
-  height: 500px;
-  width: 80%;
+  width:100%;
   margin: auto;
   margin-top: 20%;
 }
@@ -95,11 +93,6 @@ font-weight:500;
   display: flex;
   justify-content: center;
 }
-/* 
-#floatingSelectGrid {
-  color: #e9ecef;
-  background-color: #d63384;
-} */
 
 .line {
   height: 1px;
@@ -128,7 +121,7 @@ font-weight:500;
 }
 
 .carousel-item.active {
-  margin-top: 10%;
+  margin-top: 20%;
 }
 .card.col-4{
   height: 30%;
