@@ -1,4 +1,4 @@
-# Wego <img src="static/img/newego-logo.png" width="30" style="background-color: (0,0,0,0.6)">
+# Wego <img src="static/img/wego-black-logo.png" width="30">
 Let us do the planning.
 
 Life gets busy, but busy folks don't have to miss out on fun. Wego is an date plan generator app, available nationwide, that selects a curated list of events which users can save, add to the calendar, and share with friends.
