@@ -37,6 +37,7 @@
                         <div class="carousel-caption d-none d-md-block">
                             <h5 name="event_name">{{ event['name'] }}</h5>
                             <p name="event_description">{{ event['description']}}</p>
+
                             <input name="photo" type="hidden" value="{{ event['image_url']}}"> 
                             <input name="name" type="hidden" value="{{ event['name'] }}"> 
                             <input name="start_time" type="hidden" value="{{ event['time_start'] }}">
@@ -44,6 +45,7 @@
                             <input name="location" type="hidden" value="{{ event['location']['display_address'] }}">
                             <input name="link" type="hidden" value="{{ event['event_site_url'] }}">
                             <input name="type" type="hidden" value="events">
+                            <input name="date" type="hidden" value="{{date}}">
                         </div>
                             <center>
                                 <button class="like" type="click" name="yes" value="add"> Interested <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">

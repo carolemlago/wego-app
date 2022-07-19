@@ -207,15 +207,23 @@ def save_plan():
     link = request.form.get("link")
     date = request.form.get("date")
 
+
     # Getting data from user in session
     user = crud.get_user_by_id(user_id=session['user_id'])
 
     # If selected plan is a bar or activity, there's no specific time
-    if not start_time or start_time == None:
+    if not start_time or start_time == "None":
         start_time = date
-    if not end_time or end_time == None:
+    if not end_time or end_time == "None":
         end_time = date
 
+
+    print("******")
+    print(start_time)
+    print(end_time)
+    print(date)
+    print("******")
+    print(type(end_time))
     # If event category was selected, create event date plan
     plan = crud.create_plan(
         user_id=session['user_id'],
