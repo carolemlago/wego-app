@@ -19,38 +19,38 @@ Life gets busy, but busy folks don't have to miss out on fun. Wego is an date pl
 
 ### Homepage
 * To begin, users can create an account or login
-![Wego Homepage](/static/screenshots/homepage.png)
+![Wego Homepage](/static/img/homepage.png)
 
 ### Sign Up
 * Users can register to have access to the app.
-![Wego Sign Up](/static/screenshots/signup.png)
+![Wego Sign Up](/static/img/signup.png)
 
 ### Login
 * If user already has an account, authentication is used to verify info.
 * Passwords are first hashed using Argon2 and then saved to the database to maximize security
-![Wego Login](/static/screenshots/login.png)
+![Wego Login](/static/img/login.png)
 
 ### User Dashboard
 * Users can create a new date plan based on category, number of people, date, location and budget.
 * The map is interactive and allow users to select location using markers that retrieves info, updates the search form and save the coordinates in my database.
 * User's dashboard also displays saved plans and an integrated calendar that's updated every time a plan is added or deleted.
-![Wego User Dashboard](/static/screenshots/user-profile1.png)
-![Wego User Dashboard](/static/screenshots/user-profile2.png)
+![Wego User Dashboard](/static/img/user-profile1.png)
+![Wego User Dashboard](/static/img/user-profile2.png)
 
 ### Search Results 
 * Users can slide through events, bars, restaurants or activities and save them using the interested button.
-![Wego Search Results](/static/screenshots/search-results.png)
+![Wego Search Results](/static/img/search-results.png)
 
 ### Save Plan
 * Once user selects a date plan, the itinerary is confirmed.
 * All the info is saved in the database associated with that user's id.
 * A event is created for that plan in user's calendar.
-![Wego Save Plan](/static/screenshots/save-plan.png)
+![Wego Save Plan](/static/img/save-plan.png)
 
 ### Share Event
 * Users can share their plans via email using Twilio Sendgrid API.
-![Wego Share Event](/static/screenshots/modal-share.png)
-![Wego Email](/static/screenshots/email.png)
+![Wego Share Event](/static/img/modal-share.png)
+![Wego Email](/static/img/email.png)
 
 ## Future Improvements
 * Recreate the front end using React
