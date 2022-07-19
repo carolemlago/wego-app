@@ -15,7 +15,7 @@ Life gets busy, but busy folks don't have to miss out on fun. Wego is an date pl
 * Frontend: Javascript, HTML, CSS, Bootstrap, AJAX, JSON, Jinja
 * APIs: Google Maps, Yelp Fusion, Twilio's Sendgrid and FullCalendar
 ## Features
-🎥 [See a full video walk-through](soon)
+🎥 [See a full video walk-through](https://www.youtube.com/watch?v=5Qs-WGbvJzc)
 
 ### Homepage
 * To begin, users can create an account or login
