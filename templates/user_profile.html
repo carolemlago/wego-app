@@ -144,8 +144,6 @@
                         <h5 class="card-title">{{ plan.plan_name}}</h5>
                         <p class="card-text">You're going to {{plan.plan_name}}</p>
                         <input id="plan-id{{loop.index0}}" value="{{plan.plan_id}}" hidden> </input>
-                        <!-- <p>{{ plan.location }}</p>
-                        <p>{{ plan.start_time.strftime("%m-%d-%Y") }} to {{ plan.end_time.strftime("%m-%d-%Y") }}</p> -->
                         <a href="{{ plan.url }}"class="btn btn-primary">Go to Website</a>
                             <!-- Delete Event -->
                             <button class="delete" type="click" id="{{plan.plan_id}}" name="delete-plan">Delete Event <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
