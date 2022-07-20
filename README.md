@@ -1,7 +1,7 @@
 # <img src="/static/img/wego-black-logo.png" width="60">
 Let us do the planning.
 
-Life gets busy, but busy folks don't have to miss out on fun. Wego is an date plan generator app, available nationwide, that selects a curated list of events which users can save, add to the calendar, and share with friends.
+Life gets busy, but busy folks don't have to miss out on fun. Wego is a date plan generator app, available nationwide, that selects a curated list of events which users can save, add to the calendar, and share with friends.
 ## Table of Contents
 * 🤖 [Technologies](#technologies-used)
 * ⭐ [Features](#features)
