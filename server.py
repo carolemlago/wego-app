@@ -218,12 +218,6 @@ def save_plan():
         end_time = date
 
 
-    print("******")
-    print(start_time)
-    print(end_time)
-    print(date)
-    print("******")
-    print(type(end_time))
     # If event category was selected, create event date plan
     plan = crud.create_plan(
         user_id=session['user_id'],
