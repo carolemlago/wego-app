@@ -1,5 +1,3 @@
-[![Carole's GitHub stats](https://github-readme-stats.vercel.app/api?username=carolemlago)](https://github.com/carolemlago/github-readme-stats)
-
 # Wego <img src="/static/img/wego-black-logo.png" width="30">
 Let us do the planning.
 
